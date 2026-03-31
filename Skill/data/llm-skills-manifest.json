@@ -1,0 +1,139 @@
+{
+  "version": "2026-03-27",
+  "scope": "llm-only",
+  "root_plugin_packages": {
+    "codex": "antigravity-awesome-skills",
+    "claude": "antigravity-awesome-skills-claude"
+  },
+  "stats": {
+    "canonical_skill_count": 35,
+    "bundle_count": 6
+  },
+  "bundles": [
+    "agent-architect",
+    "llm-application-developer",
+    "prompt-engineering",
+    "context-memory",
+    "evaluation-ops",
+    "mcp-tooling"
+  ],
+  "host_support_overrides": {
+    "ai-engineering-toolkit": {
+      "codex": "blocked",
+      "claude": "supported"
+    },
+    "hierarchical-agent-memory": {
+      "codex": "blocked",
+      "claude": "supported"
+    },
+    "claude-code-expert": {
+      "codex": "blocked",
+      "claude": "blocked"
+    }
+  },
+  "aliases": {
+    "agent-orchestration-multi-agent-optimize": "multi-agent-patterns",
+    "agent-tool-builder": "tool-design",
+    "autonomous-agents": "autonomous-agent-patterns",
+    "context-window-management": "context-optimization",
+    "conversation-memory": "context-agent",
+    "dispatching-parallel-agents": "multi-agent-patterns",
+    "llm-application-dev-ai-assistant": "llm-app-patterns",
+    "llm-application-dev-prompt-optimize": "prompt-engineering",
+    "multi-agent-orchestration": "multi-agent-patterns",
+    "prompt-engineer": "prompt-engineering",
+    "rag-implementation": "rag-engineer",
+    "subagent-driven-development": "multi-agent-patterns"
+  },
+  "categories": {
+    "agents": [
+      "agent-evaluation",
+      "agent-orchestrator",
+      "ai-agents-architect",
+      "autonomous-agent-patterns",
+      "computer-use-agents",
+      "multi-agent-patterns"
+    ],
+    "application": [
+      "ai-engineering-toolkit",
+      "claude-api",
+      "llm-app-patterns",
+      "rag-engineer",
+      "tool-design",
+      "tool-use-guardian"
+    ],
+    "context": [
+      "context-agent",
+      "context-compression",
+      "context-fundamentals",
+      "context-guardian",
+      "context-optimization",
+      "context7-auto-research"
+    ],
+    "evaluation": [
+      "agent-evaluation",
+      "llm-evaluation",
+      "llm-ops"
+    ],
+    "frameworks": [
+      "claude-code-expert",
+      "crewai",
+      "langchain-architecture",
+      "langgraph",
+      "pydantic-ai"
+    ],
+    "memory": [
+      "agent-memory-mcp",
+      "agent-memory-systems",
+      "hierarchical-agent-memory",
+      "memory-systems"
+    ],
+    "prompts": [
+      "llm-structured-output",
+      "prompt-caching",
+      "prompt-engineering",
+      "prompt-engineering-patterns",
+      "prompt-library"
+    ],
+    "tooling": [
+      "mcp-builder"
+    ]
+  },
+  "skills": [
+    "agent-evaluation",
+    "agent-memory-mcp",
+    "agent-memory-systems",
+    "agent-orchestrator",
+    "ai-agents-architect",
+    "ai-engineering-toolkit",
+    "autonomous-agent-patterns",
+    "claude-api",
+    "claude-code-expert",
+    "computer-use-agents",
+    "context-agent",
+    "context-compression",
+    "context-fundamentals",
+    "context-guardian",
+    "context-optimization",
+    "context7-auto-research",
+    "crewai",
+    "hierarchical-agent-memory",
+    "langchain-architecture",
+    "langgraph",
+    "llm-app-patterns",
+    "llm-evaluation",
+    "llm-ops",
+    "llm-structured-output",
+    "mcp-builder",
+    "memory-systems",
+    "multi-agent-patterns",
+    "prompt-caching",
+    "prompt-engineering",
+    "prompt-engineering-patterns",
+    "prompt-library",
+    "pydantic-ai",
+    "rag-engineer",
+    "tool-design",
+    "tool-use-guardian"
+  ]
+}

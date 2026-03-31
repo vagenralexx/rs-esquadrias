@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RS Esquadrias e Vidraçaria | Elegância e Segurança</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        .bg-orange-brand { background-color: #FF6B00; }
+        .text-orange-brand { color: #FF6B00; }
+        .border-orange-brand { border-color: #FF6B00; }
+        
+        /* Hero com overlay melhorado para contraste */
+        .hero-gradient {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1505330622279-bf7d7fc918f4?auto=format&fit=crop&q=80&w=1600');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .btn-hover:hover {
+            filter: brightness(1.1);
+            transform: scale(1.02);
+        }
+
+        /* Classe para imagens que falharem */
+        .img-fallback {
+            background: #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #444;
+            min-height: 200px;
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-900">
+
+    <!-- Header -->
+    <header class="fixed w-full z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="bg-black text-white p-2 rounded flex items-center justify-center font-bold text-xl">RS</div>
+                <span class="font-extrabold text-lg tracking-tight hidden sm:block uppercase">Esquadrias e Vidraçaria</span>
+            </div>
+            <nav class="hidden md:flex space-x-8 font-medium text-sm uppercase tracking-wider">
+                <a href="#servicos" class="hover:text-orange-brand transition">Serviços</a>
+                <a href="#diferenciais" class="hover:text-orange-brand transition">Diferenciais</a>
+                <a href="#portfolio" class="hover:text-orange-brand transition">Portfólio</a>
+            </nav>
+            <a href="https://wa.me/5500000000000" class="bg-orange-brand text-white px-5 py-2.5 rounded-full font-bold text-sm btn-hover transition flex items-center gap-2">
+                <i class="fab fa-whatsapp text-lg"></i>
+                <span class="hidden sm:inline">ORÇAMENTO GRÁTIS</span>
+                <span class="sm:hidden">CONTATO</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient min-h-screen flex items-center pt-20">
+        <div class="container mx-auto px-4 text-center md:text-left grid md:grid-cols-2 gap-12 items-center">
+            <div class="space-y-6">
+                <span class="inline-block bg-orange-brand text-white px-4 py-1 rounded text-xs font-bold tracking-widest uppercase">Qualidade e Precisão</span>
+                <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight">
+                    A transparência do vidro com a força do <span class="text-orange-brand">Alumínio</span>.
+                </h1>
+                <p class="text-gray-300 text-lg md:text-xl max-w-lg">
+                    Soluções sob medida em esquadrias de alumínio e vidros temperados para valorizar cada detalhe da sua obra.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                    <a href="https://wa.me/5500000000000" class="bg-orange-brand text-white px-8 py-4 rounded-lg font-bold text-lg btn-hover transition flex justify-center items-center gap-3">
+                        <i class="fab fa-whatsapp"></i> Chamar no WhatsApp
+                    </a>
+                    <a href="#servicos" class="bg-white/10 hover:bg-white/20 text-white border border-white/30 backdrop-blur-sm px-8 py-4 rounded-lg font-bold text-lg transition flex justify-center items-center">
+                        Conheça o Trabalho
+                    </a>
+                </div>
+            </div>
+            
+            <div class="hidden md:block">
+                <div class="bg-white/5 p-4 rounded-2xl border border-white/10 backdrop-blur-sm">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800" 
+                         alt="Janelas de Alto Padrão" 
+                         class="rounded-xl shadow-2xl main-img"
+                         onerror="handleImgError(this)">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Serviços -->
+    <section id="servicos" class="py-24 bg-gray-50">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-extrabold mb-4 uppercase">Especialidades <span class="text-orange-brand">RS</span></h2>
+            <p class="text-gray-600 mb-16 max-w-2xl mx-auto">Trabalhamos com matéria-prima certificada para garantir durabilidade e isolamento termoacústico.</p>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="glass-card p-8 rounded-2xl shadow-sm text-left border-t-4 border-orange-brand">
+                    <div class="w-14 h-14 bg-orange-brand/10 rounded-lg flex items-center justify-center text-orange-brand mb-6 text-2xl">
+                        <i class="fas fa-border-all"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Esquadrias de Alumínio</h3>
+                    <p class="text-gray-600 mb-6">Janelas e portas de correr, integradas e venezianas com pintura eletrostática em diversas cores.</p>
+                    <a href="https://wa.me/5500000000000" class="text-orange-brand font-bold flex items-center gap-2 hover:gap-4 transition-all">Consultar Orçamento <i class="fas fa-arrow-right text-xs"></i></a>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="glass-card p-8 rounded-2xl shadow-sm text-left border-t-4 border-black">
+                    <div class="w-14 h-14 bg-black/5 rounded-lg flex items-center justify-center text-black mb-6 text-2xl">
+                        <i class="fas fa-shield-virus"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Vidros de Segurança</h3>
+                    <p class="text-gray-600 mb-6">Vidros temperados e laminados para boxes, guarda-corpos e fachadas de pele de vidro.</p>
+                    <a href="https://wa.me/5500000000000" class="text-orange-brand font-bold flex items-center gap-2 hover:gap-4 transition-all">Consultar Orçamento <i class="fas fa-arrow-right text-xs"></i></a>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="glass-card p-8 rounded-2xl shadow-sm text-left border-t-4 border-orange-brand">
+                    <div class="w-14 h-14 bg-orange-brand/10 rounded-lg flex items-center justify-center text-orange-brand mb-6 text-2xl">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Espelhos Premium</h3>
+                    <p class="text-gray-600 mb-6">Espelhos de 4mm e 6mm com lapidação e bisotê, perfeitos para ampliar ambientes com sofisticação.</p>
+                    <a href="https://wa.me/5500000000000" class="text-orange-brand font-bold flex items-center gap-2 hover:gap-4 transition-all">Consultar Orçamento <i class="fas fa-arrow-right text-xs"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Diferenciais -->
+    <section id="diferenciais" class="py-24 bg-black text-white overflow-hidden">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div>
+                    <h2 class="text-3xl md:text-5xl font-extrabold mb-8 leading-tight">O acabamento que <br><span class="text-orange-brand">valoriza seu imóvel</span>.</h2>
+                    <div class="space-y-8">
+                        <div class="flex gap-5">
+                            <div class="flex-shrink-0 w-12 h-12 bg-orange-brand text-white rounded-full flex items-center justify-center shadow-lg shadow-orange-brand/20">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-xl mb-1">Qualidade Superior</h4>
+                                <p class="text-gray-400">Usamos ferragens de inox e vedação de primeira linha contra infiltrações.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-5">
+                            <div class="flex-shrink-0 w-12 h-12 bg-orange-brand text-white rounded-full flex items-center justify-center shadow-lg shadow-orange-brand/20">
+                                <i class="fas fa-ruler-combined"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-xl mb-1">Sob Medida</h4>
+                                <p class="text-gray-400">Projetos personalizados que se adaptam perfeitamente ao vão da sua obra.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-5">
+                            <div class="flex-shrink-0 w-12 h-12 bg-orange-brand text-white rounded-full flex items-center justify-center shadow-lg shadow-orange-brand/20">
+                                <i class="fas fa-headset"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-xl mb-1">Pós-Venda Ativo</h4>
+                                <p class="text-gray-400">Garantia real e assistência técnica para todos os nossos serviços.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative group">
+                    <div class="absolute -inset-4 bg-orange-brand/20 rounded-3xl blur-2xl transition group-hover:bg-orange-brand/30"></div>
+                    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=800" 
+                         alt="Instalação Profissional" 
+                         class="rounded-3xl relative z-10 border border-white/10 shadow-2xl w-full"
+                         onerror="handleImgError(this)">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfólio -->
+    <section id="portfolio" class="py-24">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-extrabold mb-4 uppercase">Trabalhos <span class="text-orange-brand">Entregues</span></h2>
+            <p class="text-gray-600 mb-12">Inspire-se com alguns dos nossos projetos em residências e condomínios.</p>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="aspect-square overflow-hidden rounded-2xl bg-gray-100 group">
+                    <img src="https://images.unsplash.com/photo-1527359443443-84a48abc7df0?auto=format&fit=crop&q=80&w=600" 
+                         alt="Fachada de Vidro" 
+                         class="w-full h-full object-cover group-hover:scale-110 transition duration-700"
+                         onerror="handleImgError(this)">
+                </div>
+                <div class="aspect-square overflow-hidden rounded-2xl bg-gray-100 group">
+                    <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&q=80&w=600" 
+                         alt="Esquadrias Pretas" 
+                         class="w-full h-full object-cover group-hover:scale-110 transition duration-700"
+                         onerror="handleImgError(this)">
+                </div>
+                <div class="aspect-square overflow-hidden rounded-2xl bg-gray-100 group">
+                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=600" 
+                         alt="Ambiente Integrado" 
+                         class="w-full h-full object-cover group-hover:scale-110 transition duration-700"
+                         onerror="handleImgError(this)">
+                </div>
+                <div class="aspect-square overflow-hidden rounded-2xl bg-gray-100 group">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=600" 
+                         alt="Vidros de Sacada" 
+                         class="w-full h-full object-cover group-hover:scale-110 transition duration-700"
+                         onerror="handleImgError(this)">
+                </div>
+            </div>
+            
+            <div class="mt-16 bg-gray-50 rounded-3xl p-8 md:p-12 border border-gray-100 shadow-sm inline-block w-full max-w-4xl">
+                <h3 class="text-2xl font-bold mb-6">Pronto para iniciar seu projeto?</h3>
+                <a href="https://wa.me/5500000000000" class="inline-flex items-center gap-4 bg-orange-brand text-white px-10 py-5 rounded-2xl font-black text-xl btn-hover transition shadow-xl shadow-orange-brand/30">
+                    <i class="fab fa-whatsapp text-2xl"></i> SOLICITAR ORÇAMENTO AGORA
+                </a>
+                <p class="mt-6 text-gray-500 font-medium italic">Atendimento rápido em toda a região.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white py-16 border-t border-gray-100">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-3 gap-12 text-center md:text-left mb-12">
+                <div>
+                    <div class="flex items-center justify-center md:justify-start space-x-2 mb-6">
+                        <div class="bg-black text-white p-2 rounded flex items-center justify-center font-bold text-xl">RS</div>
+                        <span class="font-extrabold text-lg uppercase">Esquadrias e Vidraçaria</span>
+                    </div>
+                    <p class="text-gray-500 leading-relaxed">Referência em esquadrias de alumínio e vidros de alta performance para projetos residenciais e comerciais.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-black uppercase mb-6 tracking-widest">Nossos Serviços</h4>
+                    <ul class="text-gray-500 space-y-3">
+                        <li>Portas e Janelas em Alumínio</li>
+                        <li>Pele de Vidro (Fachadas)</li>
+                        <li>Box de Banheiro</li>
+                        <li>Portões de Alumínio</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-black uppercase mb-6 tracking-widest">Contato</h4>
+                    <p class="text-gray-500 mb-2 font-bold"><i class="fas fa-map-marker-alt text-orange-brand mr-2"></i> Rua do Comércio, 123 - Centro</p>
+                    <p class="text-gray-500 mb-4 font-bold"><i class="fas fa-phone text-orange-brand mr-2"></i> (00) 00000-0000</p>
+                    <div class="flex justify-center md:justify-start space-x-4">
+                        <a href="#" class="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center hover:bg-orange-brand transition"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center hover:bg-orange-brand transition"><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-100 pt-8 text-center">
+                <p class="text-gray-400 text-xs font-bold uppercase tracking-widest">
+                    &copy; 2024 RS Esquadrias e Vidraçaria - Todos os direitos reservados.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Flutuante -->
+    <a href="https://wa.me/5500000000000" class="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white p-4 rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform animate-bounce">
+        <i class="fab fa-whatsapp text-3xl"></i>
+    </a>
+
+    <script>
+        // Função para lidar com imagens quebradas
+        function handleImgError(image) {
+            image.onerror = null; // Previne loop infinito
+            const container = image.parentElement;
+            
+            // Cria um placeholder elegante com ícone
+            const fallback = document.createElement('div');
+            fallback.className = 'img-fallback rounded-xl w-full h-full';
+            fallback.innerHTML = `
+                <div class="text-center p-4">
+                    <i class="fas fa-image text-3xl mb-2 opacity-50"></i>
+                    <p class="text-[10px] uppercase font-bold tracking-tighter opacity-50">Projeto RS Esquadrias</p>
+                </div>
+            `;
+            
+            // Substitui a imagem pelo placeholder
+            image.style.display = 'none';
+            container.appendChild(fallback);
+        }
+
+        // Navegação suave
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

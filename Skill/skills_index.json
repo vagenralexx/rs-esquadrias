@@ -1,0 +1,779 @@
+[
+  {
+    "id": "agent-evaluation",
+    "path": "skills/agent-evaluation",
+    "category": "ai-agents",
+    "name": "agent-evaluation",
+    "description": "You're a quality engineer who has seen agents that aced benchmarks fail spectacularly in production. You've learned that evaluating LLM agents is fundamentally different from testing traditional software\u2014the same input can produce different outputs, and \"correct\" often has no single answer.",
+    "risk": "unknown",
+    "source": "vibeship-spawner-skills (Apache 2.0)",
+    "date_added": "2026-02-27",
+    "plugin": {
+      "targets": {
+        "codex": "supported",
+        "claude": "supported"
+      },
+      "setup": {
+        "type": "none",
+        "summary": "",
+        "docs": null
+      },
+      "reasons": []
+    }
+  },
+  {
+    "id": "agent-memory-mcp",
+    "path": "skills/agent-memory-mcp",
+    "category": "ai-ml",
+    "name": "agent-memory-mcp",
+    "description": "A hybrid memory system that provides persistent, searchable knowledge management for AI agents (Architecture, Patterns, Decisions).",
+    "risk": "unknown",
+    "source": "community",
+    "date_added": "2026-02-27",
+    "plugin": {
+      "targets": {
+        "codex": "supported",
+        "claude": "supported"
+      },
+      "setup": {
+        "type": "none",
+        "summary": "",
+        "docs": null
+      },
+      "reasons": []
+    }
+  },
+  {
+    "id": "agent-memory-systems",
+    "path": "skills/agent-memory-systems",
+    "category": "memory",
+    "name": "agent-memory-systems",
+    "description": "You are a cognitive architect who understands that memory makes agents intelligent. You've built memory systems for agents handling millions of interactions. You know that the hard part isn't storing - it's retrieving the right memory at the right time.",
+    "risk": "unknown",
+    "source": "vibeship-spawner-skills (Apache 2.0)",
+    "date_added": "2026-02-27",
+    "plugin": {
+      "targets": {
+        "codex": "supported",
+        "claude": "supported"
+      },
+      "setup": {
+        "type": "none",
+        "summary": "",
+        "docs": null
+      },
+      "reasons": []
+    }
+  },
+  {
+    "id": "agent-orchestrator",
+    "path": "skills/agent-orchestrator",
+    "category": "ai-ml",
+    "name": "agent-orchestrator",
+    "description": "Meta-skill que orquestra todos os agentes do ecossistema. Scan automatico de skills, match por capacidades, coordenacao de workflows multi-skill e registry management.",
+    "risk": "safe",
+    "source": "community",
+    "date_added": "2026-03-06",
+    "plugin": {
+      "targets": {
+        "codex": "supported",
+        "claude": "supported"
+      },
+      "setup": {
+        "type": "none",
+        "summary": "",
+        "docs": null
+      },
+      "reasons": []
+    }
+  },
+  {
+    "id": "ai-agents-architect",
+    "path": "skills/ai-agents-architect",
+    "category": "ai-agents",
+    "name": "ai-agents-architect",
+    "description": "I build AI systems that can act autonomously while remaining controllable. I understand that agents fail in unexpected ways - I design for graceful degradation and clear failure modes. I balance autonomy with oversight, knowing when an agent should ask for help vs proceed independently.",
+    "risk": "unknown",
+    "source": "vibeship-spawner-skills (Apache 2.0)",
+    "date_added": "2026-02-27",
+    "plugin": {
+      "targets": {
+        "codex": "supported",
+        "claude": "supported"
+      },
+      "setup": {
+        "type": "none",
+        "summary": "",
+        "docs": null
+      },
+      "reasons": []
+    }
+  },
+  {
+    "id": "ai-engineering-toolkit",
+    "path": "skills/ai-engineering-toolkit",
+    "category": "data-ai",
+    "name": "ai-engineering-toolkit",
+    "description": "6 production-ready AI engineering workflows: prompt evaluation (8-dimension scoring), context budget planning, RAG pipeline design, agent security audit (65-point checklist), eval harness building, and product sense coaching.",
+    "risk": "offensive",
+    "source": "community",
+    "date_added": "2026-03-15",
+    "plugin": {
+      "targets": {
+        "codex": "blocked",
+        "claude": "supported"
+      },
+      "setup": {
+        "type": "none",
+        "summary": "",
+        "docs": null
+      },
+      "reasons": [
+        "target_specific_home_path"
+      ]
+    }
+  },
+  {
+    "id": "autonomous-agent-patterns",
+    "path": "skills/autonomous-agent-patterns",
+    "category": "ai-ml",
+    "name": "autonomous-agent-patterns",
+    "description": "Design patterns for building autonomous coding agents, inspired by [Cline](https://github.com/cline/cline) and [OpenAI Codex](https://github.com/openai/codex).",
+    "risk": "unknown",
+    "source": "community",
+    "date_added": "2026-02-27",
+    "plugin": {
+      "targets": {
+        "codex": "supported",
+        "claude": "supported"
+      },
+      "setup": {
+        "type": "none",
+        "summary": "",
+        "docs": null
+      },
+      "reasons": []
+    }
+  },
+  {
+    "id": "claude-api",
+    "path": "skills/claude-api",
+    "category": "ai-ml",
+    "name": "claude-api",
+    "description": "Build apps with the Claude API or Anthropic SDK. TRIGGER when: code imports `anthropic`/`@anthropic-ai/sdk`/`claude_agent_sdk`, or user asks to use Claude API, Anthropic SDKs, or Agent SDK. DO NOT TRIGGER when: code imports `openai`/other AI SDK, general programming, or ML/data-science tasks.",
+    "risk": "unknown",
+    "source": "https://github.com/anthropics/skills",
+    "date_added": "2026-03-21",
+    "plugin": {
+      "targets": {
+        "codex": "supported",
+        "claude": "supported"
+      },
+      "setup": {
+        "type": "none",
+        "summary": "",
+        "docs": null
+      },
+      "reasons": []
+    }
+  },
+  {
+    "id": "claude-code-expert",
+    "path": "skills/claude-code-expert",
+    "category": "ai-ml",
+    "name": "claude-code-expert",
+    "description": "Especialista profundo em Claude Code - CLI da Anthropic. Maximiza produtividade com atalhos, hooks, MCPs, configuracoes avancadas, workflows, CLAUDE.md, memoria, sub-agentes, permissoes e integracao com ecossistemas.",
+    "risk": "none",
+    "source": "community",
+    "date_added": "2026-03-06",
+    "plugin": {
+      "targets": {
+        "codex": "blocked",
+        "claude": "blocked"
+      },
+      "setup": {
+        "type": "none",
+        "summary": "",
+        "docs": null
+      },
+      "reasons": [
+        "absolute_host_path",
+        "target_specific_home_path"
+      ]
+    }
+  },
+  {
+    "id": "computer-use-agents",
+    "path": "skills/computer-use-agents",
+    "category": "ai-ml",
+    "name": "computer-use-agents",
+    "description": "The fundamental architecture of computer use agents: observe screen, reason about next action, execute action, repeat. This loop integrates vision models with action execution through an iterative pipeline.",
+    "risk": "unknown",
+    "source": "vibeship-spawner-skills (Apache 2.0)",
+    "date_added": "2026-02-27",
+    "plugin": {
+      "targets": {
+        "codex": "supported",
+        "claude": "supported"
+      },
+      "setup": {
+        "type": "none",
+        "summary": "",
+        "docs": null
+      },
+      "reasons": []
+    }
+  },
+  {
+    "id": "context-agent",
+    "path": "skills/context-agent",
+    "category": "ai-ml",
+    "name": "context-agent",
+    "description": "Agente de contexto para continuidade entre sessoes. Salva resumos, decisoes, tarefas pendentes e carrega briefing automatico na sessao seguinte.",
+    "risk": "safe",
+    "source": "community",
+    "date_added": "2026-03-06",
+    "plugin": {
+      "targets": {
+        "codex": "supported",
+        "claude": "supported"
+      },
+      "setup": {
+        "type": "none",
+        "summary": "",
+        "docs": null
+      },
+      "reasons": []
+    }
+  },
+  {
+    "id": "context-compression",
+    "path": "skills/context-compression",
+    "category": "ai-ml",
+    "name": "context-compression",
+    "description": "When agent sessions generate millions of tokens of conversation history, compression becomes mandatory. The naive approach is aggressive compression to minimize tokens per request.",
+    "risk": "unknown",
+    "source": "community",
+    "date_added": null,
+    "plugin": {
+      "targets": {
+        "codex": "supported",
+        "claude": "supported"
+      },
+      "setup": {
+        "type": "none",
+        "summary": "",
+        "docs": null
+      },
+      "reasons": []
+    }
+  },
+  {
+    "id": "context-fundamentals",
+    "path": "skills/context-fundamentals",
+    "category": "ai-ml",
+    "name": "context-fundamentals",
+    "description": "Context is the complete state available to a language model at inference time. It includes everything the model can attend to when generating responses: system instructions, tool definitions, retrieved documents, message history, and tool outputs.",
+    "risk": "unknown",
+    "source": "community",
+    "date_added": null,
+    "plugin": {
+      "targets": {
+        "codex": "supported",
+        "claude": "supported"
+      },
+      "setup": {
+        "type": "none",
+        "summary": "",
+        "docs": null
+      },
+      "reasons": []
+    }
+  },
+  {
+    "id": "context-guardian",
+    "path": "skills/context-guardian",
+    "category": "ai-ml",
+    "name": "context-guardian",
+    "description": "Guardiao de contexto que preserva dados criticos antes da compactacao automatica. Snapshots, verificacao de integridade e zero perda de informacao.",
+    "risk": "safe",
+    "source": "community",
+    "date_added": "2026-03-06",
+    "plugin": {
+      "targets": {
+        "codex": "supported",
+        "claude": "supported"
+      },
+      "setup": {
+        "type": "none",
+        "summary": "",
+        "docs": null
+      },
+      "reasons": []
+    }
+  },
+  {
+    "id": "context-optimization",
+    "path": "skills/context-optimization",
+    "category": "ai-ml",
+    "name": "context-optimization",
+    "description": "Context optimization extends the effective capacity of limited context windows through strategic compression, masking, caching, and partitioning. The goal is not to magically increase context windows but to make better use of available capacity.",
+    "risk": "unknown",
+    "source": "community",
+    "date_added": null,
+    "plugin": {
+      "targets": {
+        "codex": "supported",
+        "claude": "supported"
+      },
+      "setup": {
+        "type": "none",
+        "summary": "",
+        "docs": null
+      },
+      "reasons": []
+    }
+  },
+  {
+    "id": "context7-auto-research",
+    "path": "skills/context7-auto-research",
+    "category": "meta",
+    "name": "context7-auto-research",
+    "description": "Automatically fetch latest library/framework documentation for Claude Code via Context7 API. Use when you need up-to-date documentation for libraries and frameworks or asking about React, Next.js, Prisma, or any other popular library.",
+    "risk": "unknown",
+    "source": "community",
+    "date_added": "2026-02-27",
+    "plugin": {
+      "targets": {
+        "codex": "supported",
+        "claude": "supported"
+      },
+      "setup": {
+        "type": "none",
+        "summary": "",
+        "docs": null
+      },
+      "reasons": []
+    }
+  },
+  {
+    "id": "crewai",
+    "path": "skills/crewai",
+    "category": "ai-ml",
+    "name": "crewai",
+    "description": "You are an expert in designing collaborative AI agent teams with CrewAI. You think in terms of roles, responsibilities, and delegation. You design clear agent personas with specific expertise, create well-defined tasks with expected outputs, and orchestrate crews for optimal collaboration.",
+    "risk": "unknown",
+    "source": "vibeship-spawner-skills (Apache 2.0)",
+    "date_added": "2026-02-27",
+    "plugin": {
+      "targets": {
+        "codex": "supported",
+        "claude": "supported"
+      },
+      "setup": {
+        "type": "none",
+        "summary": "",
+        "docs": null
+      },
+      "reasons": []
+    }
+  },
+  {
+    "id": "hierarchical-agent-memory",
+    "path": "skills/hierarchical-agent-memory",
+    "category": "memory",
+    "name": "hierarchical-agent-memory",
+    "description": "Scoped CLAUDE.md memory system that reduces context token spend. Creates directory-level context files, tracks savings via dashboard, and routes agents to the right sub-context.",
+    "risk": "safe",
+    "source": "https://github.com/kromahlusenii-ops/ham",
+    "date_added": "2026-02-27",
+    "plugin": {
+      "targets": {
+        "codex": "blocked",
+        "claude": "supported"
+      },
+      "setup": {
+        "type": "none",
+        "summary": "",
+        "docs": null
+      },
+      "reasons": [
+        "target_specific_home_path"
+      ]
+    }
+  },
+  {
+    "id": "langchain-architecture",
+    "path": "skills/langchain-architecture",
+    "category": "ai-ml",
+    "name": "langchain-architecture",
+    "description": "Master the LangChain framework for building sophisticated LLM applications with agents, chains, memory, and tool integration.",
+    "risk": "unknown",
+    "source": "community",
+    "date_added": "2026-02-27",
+    "plugin": {
+      "targets": {
+        "codex": "supported",
+        "claude": "supported"
+      },
+      "setup": {
+        "type": "none",
+        "summary": "",
+        "docs": null
+      },
+      "reasons": []
+    }
+  },
+  {
+    "id": "langgraph",
+    "path": "skills/langgraph",
+    "category": "ai-agents",
+    "name": "langgraph",
+    "description": "You are an expert in building production-grade AI agents with LangGraph. You understand that agents need explicit structure - graphs make the flow visible and debuggable. You design state carefully, use reducers appropriately, and always consider persistence for production.",
+    "risk": "unknown",
+    "source": "vibeship-spawner-skills (Apache 2.0)",
+    "date_added": "2026-02-27",
+    "plugin": {
+      "targets": {
+        "codex": "supported",
+        "claude": "supported"
+      },
+      "setup": {
+        "type": "none",
+        "summary": "",
+        "docs": null
+      },
+      "reasons": []
+    }
+  },
+  {
+    "id": "llm-app-patterns",
+    "path": "skills/llm-app-patterns",
+    "category": "data-ai",
+    "name": "llm-app-patterns",
+    "description": "Production-ready patterns for building LLM applications, inspired by [Dify](https://github.com/langgenius/dify) and industry best practices.",
+    "risk": "unknown",
+    "source": "community",
+    "date_added": "2026-02-27",
+    "plugin": {
+      "targets": {
+        "codex": "supported",
+        "claude": "supported"
+      },
+      "setup": {
+        "type": "none",
+        "summary": "",
+        "docs": null
+      },
+      "reasons": []
+    }
+  },
+  {
+    "id": "llm-evaluation",
+    "path": "skills/llm-evaluation",
+    "category": "ai-ml",
+    "name": "llm-evaluation",
+    "description": "Master comprehensive evaluation strategies for LLM applications, from automated metrics to human evaluation and A/B testing.",
+    "risk": "unknown",
+    "source": "community",
+    "date_added": "2026-02-27",
+    "plugin": {
+      "targets": {
+        "codex": "supported",
+        "claude": "supported"
+      },
+      "setup": {
+        "type": "none",
+        "summary": "",
+        "docs": null
+      },
+      "reasons": []
+    }
+  },
+  {
+    "id": "llm-ops",
+    "path": "skills/llm-ops",
+    "category": "ai-ml",
+    "name": "llm-ops",
+    "description": "LLM Operations -- RAG, embeddings, vector databases, fine-tuning, prompt engineering avancado, custos de LLM, evals de qualidade e arquiteturas de IA para producao.",
+    "risk": "safe",
+    "source": "community",
+    "date_added": "2026-03-06",
+    "plugin": {
+      "targets": {
+        "codex": "supported",
+        "claude": "supported"
+      },
+      "setup": {
+        "type": "none",
+        "summary": "",
+        "docs": null
+      },
+      "reasons": []
+    }
+  },
+  {
+    "id": "llm-structured-output",
+    "path": "skills/llm-structured-output",
+    "category": "ai-ml",
+    "name": "llm-structured-output",
+    "description": "Get reliable JSON, enums, and typed objects from LLMs using response_format, tool_use, and schema-constrained decoding across OpenAI, Anthropic, and Google APIs.\n",
+    "risk": "safe",
+    "source": "community",
+    "date_added": "2026-03-12",
+    "plugin": {
+      "targets": {
+        "codex": "supported",
+        "claude": "supported"
+      },
+      "setup": {
+        "type": "none",
+        "summary": "",
+        "docs": null
+      },
+      "reasons": []
+    }
+  },
+  {
+    "id": "mcp-builder",
+    "path": "skills/mcp-builder",
+    "category": "ai-agents",
+    "name": "mcp-builder",
+    "description": "Create MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. The quality of an MCP server is measured by how well it enables LLMs to accomplish real-world tasks.",
+    "risk": "unknown",
+    "source": "community",
+    "date_added": "2026-02-27",
+    "plugin": {
+      "targets": {
+        "codex": "supported",
+        "claude": "supported"
+      },
+      "setup": {
+        "type": "none",
+        "summary": "",
+        "docs": null
+      },
+      "reasons": []
+    }
+  },
+  {
+    "id": "memory-systems",
+    "path": "skills/memory-systems",
+    "category": "memory",
+    "name": "memory-systems",
+    "description": "Design short-term, long-term, and graph-based memory architectures. Use when building agents that must persist across sessions, needing to maintain entity consistency across conversations, or implementing reasoning over accumulated knowledge.",
+    "risk": "safe",
+    "source": "https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering/tree/main/skills/memory-systems",
+    "date_added": "2026-02-27",
+    "plugin": {
+      "targets": {
+        "codex": "supported",
+        "claude": "supported"
+      },
+      "setup": {
+        "type": "none",
+        "summary": "",
+        "docs": null
+      },
+      "reasons": []
+    }
+  },
+  {
+    "id": "multi-agent-patterns",
+    "path": "skills/multi-agent-patterns",
+    "category": "ai-agents",
+    "name": "multi-agent-patterns",
+    "description": "This skill should be used when the user asks to \"design multi-agent system\", \"implement supervisor pattern\", \"create swarm architecture\", \"coordinate multiple agents\", or mentions multi-agent patterns, context isolation, agent handoffs, sub-agents, or parallel agent execution.",
+    "risk": "unknown",
+    "source": "community",
+    "date_added": null,
+    "plugin": {
+      "targets": {
+        "codex": "supported",
+        "claude": "supported"
+      },
+      "setup": {
+        "type": "none",
+        "summary": "",
+        "docs": null
+      },
+      "reasons": []
+    }
+  },
+  {
+    "id": "prompt-caching",
+    "path": "skills/prompt-caching",
+    "category": "ai-ml",
+    "name": "prompt-caching",
+    "description": "You're a caching specialist who has reduced LLM costs by 90% through strategic caching. You've implemented systems that cache at multiple levels: prompt prefixes, full responses, and semantic similarity matches.",
+    "risk": "unknown",
+    "source": "vibeship-spawner-skills (Apache 2.0)",
+    "date_added": "2026-02-27",
+    "plugin": {
+      "targets": {
+        "codex": "supported",
+        "claude": "supported"
+      },
+      "setup": {
+        "type": "none",
+        "summary": "",
+        "docs": null
+      },
+      "reasons": []
+    }
+  },
+  {
+    "id": "prompt-engineering",
+    "path": "skills/prompt-engineering",
+    "category": "ai-ml",
+    "name": "prompt-engineering",
+    "description": "Expert guide on prompt engineering patterns, best practices, and optimization techniques. Use when user wants to improve prompts, learn prompting strategies, or debug agent behavior.",
+    "risk": "unknown",
+    "source": "community",
+    "date_added": "2026-02-27",
+    "plugin": {
+      "targets": {
+        "codex": "supported",
+        "claude": "supported"
+      },
+      "setup": {
+        "type": "none",
+        "summary": "",
+        "docs": null
+      },
+      "reasons": []
+    }
+  },
+  {
+    "id": "prompt-engineering-patterns",
+    "path": "skills/prompt-engineering-patterns",
+    "category": "ai-ml",
+    "name": "prompt-engineering-patterns",
+    "description": "Master advanced prompt engineering techniques to maximize LLM performance, reliability, and controllability.",
+    "risk": "unknown",
+    "source": "community",
+    "date_added": "2026-02-27",
+    "plugin": {
+      "targets": {
+        "codex": "supported",
+        "claude": "supported"
+      },
+      "setup": {
+        "type": "none",
+        "summary": "",
+        "docs": null
+      },
+      "reasons": []
+    }
+  },
+  {
+    "id": "prompt-library",
+    "path": "skills/prompt-library",
+    "category": "content",
+    "name": "prompt-library",
+    "description": "A comprehensive collection of battle-tested prompts inspired by [awesome-chatgpt-prompts](https://github.com/f/awesome-chatgpt-prompts) and community best practices.",
+    "risk": "unknown",
+    "source": "community",
+    "date_added": "2026-02-27",
+    "plugin": {
+      "targets": {
+        "codex": "supported",
+        "claude": "supported"
+      },
+      "setup": {
+        "type": "none",
+        "summary": "",
+        "docs": null
+      },
+      "reasons": []
+    }
+  },
+  {
+    "id": "pydantic-ai",
+    "path": "skills/pydantic-ai",
+    "category": "ai-agents",
+    "name": "pydantic-ai",
+    "description": "Build production-ready AI agents with PydanticAI \u2014 type-safe tool use, structured outputs, dependency injection, and multi-model support.",
+    "risk": "safe",
+    "source": "community",
+    "date_added": "2026-03-18",
+    "plugin": {
+      "targets": {
+        "codex": "supported",
+        "claude": "supported"
+      },
+      "setup": {
+        "type": "none",
+        "summary": "",
+        "docs": null
+      },
+      "reasons": []
+    }
+  },
+  {
+    "id": "rag-engineer",
+    "path": "skills/rag-engineer",
+    "category": "data-ai",
+    "name": "rag-engineer",
+    "description": "I bridge the gap between raw documents and LLM understanding. I know that retrieval quality determines generation quality - garbage in, garbage out. I obsess over chunking boundaries, embedding dimensions, and similarity metrics because they make the difference between helpful and hallucinating.",
+    "risk": "unknown",
+    "source": "vibeship-spawner-skills (Apache 2.0)",
+    "date_added": "2026-02-27",
+    "plugin": {
+      "targets": {
+        "codex": "supported",
+        "claude": "supported"
+      },
+      "setup": {
+        "type": "none",
+        "summary": "",
+        "docs": null
+      },
+      "reasons": []
+    }
+  },
+  {
+    "id": "tool-design",
+    "path": "skills/tool-design",
+    "category": "ai-ml",
+    "name": "tool-design",
+    "description": "Build tools that agents can use effectively, including architectural reduction patterns. Use when creating new tools for agent systems, debugging tool-related failures or misuse, or optimizing existing tool sets for better agent performance.",
+    "risk": "safe",
+    "source": "https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering/tree/main/skills/tool-design",
+    "date_added": "2026-02-27",
+    "plugin": {
+      "targets": {
+        "codex": "supported",
+        "claude": "supported"
+      },
+      "setup": {
+        "type": "none",
+        "summary": "",
+        "docs": null
+      },
+      "reasons": []
+    }
+  },
+  {
+    "id": "tool-use-guardian",
+    "path": "skills/tool-use-guardian",
+    "category": "reliability",
+    "name": "tool-use-guardian",
+    "description": "FREE \u2014 Intelligent tool-call reliability wrapper. Monitors, retries, fixes, and learns from tool failures. Auto-recovers from truncated JSON, timeouts, rate limits, and mid-chain failures.",
+    "risk": "safe",
+    "source": "community",
+    "date_added": "2026-03-13",
+    "plugin": {
+      "targets": {
+        "codex": "supported",
+        "claude": "supported"
+      },
+      "setup": {
+        "type": "none",
+        "summary": "",
+        "docs": null
+      },
+      "reasons": []
+    }
+  }
+]

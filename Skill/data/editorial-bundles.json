@@ -1,0 +1,210 @@
+{
+  "bundles": [
+    {
+      "id": "agent-architect",
+      "name": "Agent Architect",
+      "group": "AI & Agents",
+      "emoji": "🤖",
+      "tagline": "The \"Agent Architect\" Pack",
+      "audience": "For designing agent systems, orchestration, and multi-agent execution.",
+      "description": "For designing agent systems, orchestration, and multi-agent execution.",
+      "skills": [
+        {
+          "id": "ai-agents-architect",
+          "summary": "Design production-ready autonomous agent systems."
+        },
+        {
+          "id": "autonomous-agent-patterns",
+          "summary": "Select safe autonomous execution patterns."
+        },
+        {
+          "id": "agent-orchestrator",
+          "summary": "Structure agent routing and coordination flows."
+        },
+        {
+          "id": "multi-agent-patterns",
+          "summary": "Compose specialized agents without chaos."
+        },
+        {
+          "id": "langgraph",
+          "summary": "Build stateful graph-based agent workflows."
+        },
+        {
+          "id": "crewai",
+          "summary": "Implement crew-style role delegation."
+        }
+      ]
+    },
+    {
+      "id": "llm-application-developer",
+      "name": "LLM Application Developer",
+      "group": "AI & Agents",
+      "emoji": "🧠",
+      "tagline": "The \"LLM Application Developer\" Pack",
+      "audience": "For building production LLM apps with retrieval, structure, and operational control.",
+      "description": "For building production LLM apps with retrieval, structure, and operational control.",
+      "skills": [
+        {
+          "id": "llm-app-patterns",
+          "summary": "Apply production-ready LLM application patterns."
+        },
+        {
+          "id": "rag-engineer",
+          "summary": "Design retrieval pipelines and grounded answers."
+        },
+        {
+          "id": "prompt-caching",
+          "summary": "Reduce latency and cost with prompt caching."
+        },
+        {
+          "id": "context-optimization",
+          "summary": "Use context budget where it matters most."
+        },
+        {
+          "id": "llm-structured-output",
+          "summary": "Enforce schemas and stable machine-readable outputs."
+        },
+        {
+          "id": "pydantic-ai",
+          "summary": "Implement typed LLM applications with Pydantic AI."
+        }
+      ]
+    },
+    {
+      "id": "prompt-engineering",
+      "name": "Prompt Engineering",
+      "group": "Prompts & Outputs",
+      "emoji": "✍️",
+      "tagline": "The \"Prompt Engineering\" Pack",
+      "audience": "For designing precise prompts, reusable prompt assets, and reliable outputs.",
+      "description": "For designing precise prompts, reusable prompt assets, and reliable outputs.",
+      "skills": [
+        {
+          "id": "prompt-engineering",
+          "summary": "Write high-signal prompts for programming LLMs."
+        },
+        {
+          "id": "prompt-engineering-patterns",
+          "summary": "Choose prompt patterns by task shape and failure mode."
+        },
+        {
+          "id": "prompt-library",
+          "summary": "Organize reusable prompts and system instructions."
+        },
+        {
+          "id": "llm-structured-output",
+          "summary": "Combine prompts with schema-constrained outputs."
+        },
+        {
+          "id": "tool-design",
+          "summary": "Design tool contracts that LLMs can call reliably."
+        }
+      ]
+    },
+    {
+      "id": "context-memory",
+      "name": "Context & Memory",
+      "group": "Context & Memory",
+      "emoji": "🧷",
+      "tagline": "The \"Context & Memory\" Pack",
+      "audience": "For long-running sessions, memory hierarchy, and context quality control.",
+      "description": "For long-running sessions, memory hierarchy, and context quality control.",
+      "skills": [
+        {
+          "id": "context-fundamentals",
+          "summary": "Model context windows, relevance, and token budgets."
+        },
+        {
+          "id": "context-agent",
+          "summary": "Assign agents explicit context responsibilities."
+        },
+        {
+          "id": "context-compression",
+          "summary": "Compress state without losing decision-critical details."
+        },
+        {
+          "id": "context-guardian",
+          "summary": "Protect prompt boundaries and instruction integrity."
+        },
+        {
+          "id": "agent-memory-systems",
+          "summary": "Design memory for persistent agent workflows."
+        },
+        {
+          "id": "memory-systems",
+          "summary": "Choose memory layers and retrieval strategies."
+        },
+        {
+          "id": "agent-memory-mcp",
+          "summary": "Expose memory over MCP-compatible interfaces."
+        }
+      ]
+    },
+    {
+      "id": "evaluation-ops",
+      "name": "Evaluation & Ops",
+      "group": "Evaluation & Reliability",
+      "emoji": "📏",
+      "tagline": "The \"Evaluation & Ops\" Pack",
+      "audience": "For measuring quality, controlling failures, and operating LLM systems safely.",
+      "description": "For measuring quality, controlling failures, and operating LLM systems safely.",
+      "skills": [
+        {
+          "id": "agent-evaluation",
+          "summary": "Test agent behavior against explicit goals."
+        },
+        {
+          "id": "llm-evaluation",
+          "summary": "Build repeatable evaluation loops for model quality."
+        },
+        {
+          "id": "llm-ops",
+          "summary": "Operate LLM systems with cost and reliability discipline."
+        },
+        {
+          "id": "tool-use-guardian",
+          "summary": "Constrain risky tool execution paths."
+        },
+        {
+          "id": "computer-use-agents",
+          "summary": "Manage UI-driving agents and their failure modes."
+        },
+        {
+          "id": "context7-auto-research",
+          "summary": "Automate targeted context gathering before execution."
+        }
+      ]
+    },
+    {
+      "id": "mcp-tooling",
+      "name": "MCP & Framework Tooling",
+      "group": "Frameworks & Tooling",
+      "emoji": "🛠️",
+      "tagline": "The \"MCP & Framework Tooling\" Pack",
+      "audience": "For tool interfaces, MCP servers, and framework-specific agent implementations.",
+      "description": "For tool interfaces, MCP servers, and framework-specific agent implementations.",
+      "skills": [
+        {
+          "id": "mcp-builder",
+          "summary": "Build MCP servers and tool surfaces cleanly."
+        },
+        {
+          "id": "tool-design",
+          "summary": "Define tool schemas and invocation rules that agents follow."
+        },
+        {
+          "id": "langchain-architecture",
+          "summary": "Structure LangChain-based agent applications."
+        },
+        {
+          "id": "pydantic-ai",
+          "summary": "Use typed agents and validation-oriented flows."
+        },
+        {
+          "id": "claude-api",
+          "summary": "Integrate Claude-oriented application patterns safely."
+        }
+      ]
+    }
+  ]
+}
