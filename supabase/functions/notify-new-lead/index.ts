@@ -58,7 +58,7 @@ Deno.serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'RS Esquadrias <noreply@rsesquadrias.com.br>',
+        from: 'RS Esquadrias <onboarding@resend.dev>',
         to: [notificationEmail],
         subject: `Novo lead: ${lead.name} — ${lead.service}`,
         html: emailBody,
