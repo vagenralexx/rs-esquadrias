@@ -1,12 +1,13 @@
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
-import { LayoutDashboard, Images, Settings, Users, MessageSquare, LogOut, ExternalLink } from 'lucide-react'
+import { LayoutDashboard, Images, Settings, Users, MessageSquare, LogOut, ExternalLink, Star } from 'lucide-react'
 import { DarkModeToggle } from '../ui/DarkModeToggle'
 
 const nav = [
   { to: '/admin', label: 'Dashboard', icon: LayoutDashboard, end: true },
   { to: '/admin/portfolio', label: 'Portfólio', icon: Images },
   { to: '/admin/leads', label: 'Leads', icon: MessageSquare },
+  { to: '/admin/reviews', label: 'Avaliações', icon: Star },
   { to: '/admin/config', label: 'Configurações', icon: Settings },
   { to: '/admin/users', label: 'Usuários', icon: Users, masterOnly: true },
 ]
