@@ -206,12 +206,17 @@ alter table public.leads enable row level security;
 drop policy if exists "leads_insert" on public.leads;
 drop policy if exists "leads_select" on public.leads;
 drop policy if exists "leads_all" on public.leads;
+drop policy if exists "leads_public_insert" on public.leads;
+drop policy if exists "leads_auth_select" on public.leads;
+drop policy if exists "leads_auth_update" on public.leads;
+drop policy if exists "leads_auth_delete" on public.leads;
 
 -- Qualquer visitante (anônimo) pode inserir lead
-create policy "leads_insert" on public.leads for insert with check (true);
--- Só autenticados podem ver e gerenciar
-create policy "leads_select" on public.leads for select to authenticated using (true);
-create policy "leads_all" on public.leads for all to authenticated using (true) with check (true);
+create policy "leads_public_insert" on public.leads for insert with check (true);
+-- Só autenticados podem ver, atualizar e excluir
+create policy "leads_auth_select" on public.leads for select to authenticated using (true);
+create policy "leads_auth_update" on public.leads for update to authenticated using (true) with check (true);
+create policy "leads_auth_delete" on public.leads for delete to authenticated using (true);
 
 -- ============================================================
 -- TABELA DE AVALIAÇÕES (REVIEWS)
