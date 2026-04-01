@@ -48,7 +48,7 @@ Deno.serve(async (req) => {
         <tr><td style="padding:8px;font-weight:bold;color:#666;">Mensagem</td><td style="padding:8px;">${lead.message || '—'}</td></tr>
         <tr style="background:#f9f9f9;"><td style="padding:8px;font-weight:bold;color:#666;">Origem</td><td style="padding:8px;">${lead.source}</td></tr>
       </table>
-      <p style="margin-top:16px;"><a href="https://rsesquadrias.com.br/admin/leads" style="background:#FF6B00;color:white;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:bold;">Ver no Painel →</a></p>
+      <p style="margin-top:16px;"><a href="https://rs-esquadrias.pages.dev/admin/leads" style="background:#FF6B00;color:white;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:bold;">Ver no Painel →</a></p>
     `
 
     const res = await fetch('https://api.resend.com/emails', {
