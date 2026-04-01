@@ -11,7 +11,9 @@ const DEFAULTS = {
   instagram: 'https://www.instagram.com/rsesquadriasevidracaria_/',
 }
 
-export default function Footer() {
+interface Props { openModal?: (source: string) => void }
+
+export default function Footer({ openModal: _openModal }: Props) {
   const [cfg, setCfg] = useState(DEFAULTS)
 
   useEffect(() => {

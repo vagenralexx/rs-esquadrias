@@ -6,7 +6,9 @@ import LeadModal from './LeadModal'
 const WA = import.meta.env.VITE_WHATSAPP as string
 const DEFAULTS = { address: 'R. Sebastião Mattos, 386, Munhoz - MG, 37620-000', phone: '(35) 99720-0066', instagram: 'https://www.instagram.com/rsesquadriasevidracaria_/', maps: 'https://www.google.com/maps?q=-22.6104739,-46.366385', maps_embed: 'https://maps.google.com/maps?q=-22.6104739,-46.366385&z=17&output=embed' }
 
-export default function Contact() {
+interface ContactProps { openModal?: (source: string) => void }
+
+export default function Contact({ openModal: _openModal }: ContactProps) {
   const [config, setConfig] = useState(DEFAULTS)
   const [showModal, setShowModal] = useState(false)
 

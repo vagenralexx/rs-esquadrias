@@ -7,9 +7,10 @@ const SERVICES = [
   'Box de Banheiro', 'Pele de Vidro / Fachada', 'Portões de Alumínio', 'Outro',
 ]
 
-interface Props { onClose: () => void; waNumber: string }
+interface Props { onClose: () => void; waNumber: string; source?: string; servicesList?: string[] }
 
-export default function LeadModal({ onClose, waNumber }: Props) {
+export default function LeadModal({ onClose, waNumber, source, servicesList }: Props) {
+  const services = servicesList && servicesList.length > 0 ? servicesList : SERVICES
   const [form, setForm] = useState({ name: '', phone: '', email: '', service: '', message: '' })
   const [loading, setLoading] = useState(false)
 
@@ -22,7 +23,7 @@ export default function LeadModal({ onClose, waNumber }: Props) {
     setLoading(true)
     await supabase.from('leads').insert({
       name: form.name, phone: form.phone, email: form.email || null,
-      service: form.service, message: form.message, source: 'landing_hero',
+      service: form.service, message: form.message, source: source ?? 'landing_hero',
     })
     const msg = encodeURIComponent(
       `Olá! Meu nome é *${form.name}*.\n📞 Telefone: ${form.phone}\n🔧 Serviço: ${form.service}\n` +
@@ -58,7 +59,7 @@ export default function LeadModal({ onClose, waNumber }: Props) {
             <label className="text-xs font-bold uppercase text-gray-500 dark:text-gray-400">Serviço desejado *</label>
             <select className="w-full border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 rounded-lg px-3 py-2.5 mt-1 text-sm focus:outline-none focus:border-[#FF6B00]" value={form.service} onChange={e => set('service', e.target.value)} required>
               <option value="">Selecione...</option>
-              {SERVICES.map(s => <option key={s} value={s}>{s}</option>)}
+              {services.map(s => <option key={s} value={s}>{s}</option>)}
             </select>
           </div>
           <div>

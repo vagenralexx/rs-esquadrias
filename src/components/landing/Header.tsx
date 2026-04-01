@@ -4,7 +4,9 @@ import { DarkModeToggle } from '../ui/DarkModeToggle'
 
 const WA = import.meta.env.VITE_WHATSAPP as string
 
-export default function Header() {
+interface Props { onOpenModal?: (source: string) => void }
+
+export default function Header({ onOpenModal: _onOpenModal }: Props) {
   const [open, setOpen] = useState(false)
   return (
     <header className="fixed w-full z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur border-b border-gray-100 dark:border-gray-800 shadow-sm transition-colors">
