@@ -142,3 +142,31 @@ create policy "images_delete" on storage.objects for delete to authenticated usi
 -- ============================================================
 
 -- update public.profiles set role = 'master' where email = 'seu-email@aqui.com';
+
+-- ============================================================
+-- TABELA DE AVALIAÇÕES (REVIEWS)
+-- ============================================================
+create table if not exists public.reviews (
+  id uuid default gen_random_uuid() primary key,
+  author_name text not null,
+  rating integer not null default 5 check (rating between 1 and 5),
+  body text not null default '',
+  "order" integer not null default 0,
+  active boolean not null default true,
+  created_at timestamptz default now()
+);
+
+alter table public.reviews enable row level security;
+
+drop policy if exists "reviews_select" on public.reviews;
+drop policy if exists "reviews_all" on public.reviews;
+
+create policy "reviews_select" on public.reviews for select using (active = true);
+create policy "reviews_all" on public.reviews for all to authenticated using (true) with check (true);
+
+insert into public.reviews (author_name, rating, body, "order", active) values
+  ('Sophia Moraes', 5, 'Um ótimo atendimento, recomendo!', 1, true),
+  ('Aparecida Fogaça', 5, 'Excelente atendimento e serviço, super indico.', 2, true),
+  ('João Almeida', 5, 'Muito bom serviço e excelente atendimento.', 3, true),
+  ('Vovó Lola', 5, 'Atendimento impecável, trabalho de qualidade!', 4, true)
+on conflict do nothing;

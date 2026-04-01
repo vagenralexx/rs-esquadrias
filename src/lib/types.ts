@@ -33,3 +33,13 @@ export interface Lead {
   source: string
   created_at: string
 }
+
+export interface Review {
+  id: string
+  author_name: string
+  rating: number
+  body: string
+  order: number
+  active: boolean
+  created_at: string
+}
