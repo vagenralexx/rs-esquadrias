@@ -32,17 +32,15 @@ export interface Lead {
   message: string
   source: string
   status: 'new' | 'saved' | 'archived'
+  notes: string
   created_at: string
 }
 
-export interface Partner {
+export interface Review {
   id: string
-  name: string
-  description: string
-  address: string
-  phone: string
-  whatsapp: string
-  logo_url: string
+  author_name: string
+  rating: number
+  body: string
   order: number
   active: boolean
   created_at: string

@@ -1,31 +1,36 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { supabase } from '../../lib/supabase'
 import type { Lead } from '../../lib/types'
-import { ClipboardList, Search, Trash2, Archive, Bookmark, CheckSquare, Square, Download, MessageCircle } from 'lucide-react'
+import { ClipboardList, MessageCircle, Trash2 } from 'lucide-react'
 
-type Status = 'new' | 'saved' | 'archived'
-
-const TABS: { key: Status; label: string; color: string }[] = [
-  { key: 'new', label: 'Novos', color: 'text-blue-600 dark:text-blue-400' },
-  { key: 'saved', label: 'Salvos', color: 'text-green-600 dark:text-green-400' },
-  { key: 'archived', label: 'Arquivados', color: 'text-gray-500 dark:text-gray-400' },
-]
+const STATUS_LABELS: Record<string, string> = {
+  new: 'Novo',
+  saved: 'Salvo',
+  archived: 'Arquivado',
+}
 
 export default function Leads() {
   const [leads, setLeads] = useState<Lead[]>([])
   const [search, setSearch] = useState('')
-  const [tab, setTab] = useState<Status>('new')
-  const [selected, setSelected] = useState<Set<string>>(new Set())
-  const [loading, setLoading] = useState(true)
-  const [acting, setActing] = useState(false)
+  const notesTimers = useRef<Record<string, ReturnType<typeof setTimeout>>>({})
 
   async function load() {
-    setLoading(true)
     const { data } = await supabase.from('leads').select('*').order('created_at', { ascending: false })
-    setLeads((data as Lead[]) ?? [])
-    setSelected(new Set())
-    setLoading(false)
+    if (data) setLeads(data as Lead[])
   }
+
+  useEffect(() => {
+    load()
+
+    const channel = supabase
+      .channel('leads-realtime')
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'leads' }, () => {
+        load()
+      })
+      .subscribe()
+
+    return () => { supabase.removeChannel(channel) }
+  }, [])
 
   useEffect(() => { load() }, [])
 
@@ -79,9 +84,7 @@ export default function Leads() {
 
   function exportCSV() {
     const header = 'Nome,Telefone,Email,Serviço,Mensagem,Origem,Status,Data'
-    const rows = filtered.map(l =>
-      `"${l.name}","${l.phone}","${l.email ?? ''}","${l.service}","${l.message}","${l.source}","${l.status ?? 'new'}","${new Date(l.created_at).toLocaleDateString('pt-BR')}"`
-    )
+    const rows = leads.map(l => `"${l.name}","${l.phone}","${l.email ?? ''}","${l.service}","${l.message}","${l.source}","${l.status}","${new Date(l.created_at).toLocaleDateString('pt-BR')}"`)
     const blob = new Blob([[header, ...rows].join('\n')], { type: 'text/csv' })
     const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `leads-${tab}-${Date.now()}.csv`; a.click()
   }
@@ -90,6 +93,25 @@ export default function Leads() {
     new: leads.filter(l => (l.status ?? 'new') === 'new').length,
     saved: leads.filter(l => l.status === 'saved').length,
     archived: leads.filter(l => l.status === 'archived').length,
+  }
+
+  async function updateStatus(id: string, status: Lead['status']) {
+    await supabase.from('leads').update({ status }).eq('id', id)
+    setLeads(prev => prev.map(l => l.id === id ? { ...l, status } : l))
+  }
+
+  async function deleteOne(lead: Lead) {
+    if (!confirm(`Excluir lead de ${lead.name}?`)) return
+    await supabase.from('leads').delete().eq('id', lead.id)
+    setLeads(prev => prev.filter(l => l.id !== lead.id))
+  }
+
+  function handleNotesChange(id: string, value: string) {
+    setLeads(prev => prev.map(l => l.id === id ? { ...l, notes: value } : l))
+    clearTimeout(notesTimers.current[id])
+    notesTimers.current[id] = setTimeout(async () => {
+      await supabase.from('leads').update({ notes: value }).eq('id', id)
+    }, 800)
   }
 
   return (
@@ -119,42 +141,13 @@ export default function Leads() {
       </div>
 
       <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
-        {/* Toolbar */}
-        <div className="p-4 border-b border-gray-100 dark:border-gray-700 flex items-center gap-3 flex-wrap">
-          <div className="relative flex-1 min-w-48">
-            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-            <input
-              className="w-full border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 dark:placeholder-gray-400 rounded-lg pl-8 pr-3 py-2 text-sm focus:outline-none focus:border-[#FF6B00]"
-              placeholder="Buscar por nome, telefone ou serviço..."
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-            />
-          </div>
-
-          {/* Bulk actions — only when something is selected */}
-          {selected.size > 0 && (
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-xs font-bold text-gray-500 dark:text-gray-400">{selected.size} selecionado(s)</span>
-              {tab !== 'saved' && (
-                <button onClick={() => bulkStatus('saved')} disabled={acting} className="flex items-center gap-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-3 py-1.5 rounded-lg text-xs font-bold hover:brightness-110 transition disabled:opacity-50">
-                  <Bookmark size={13} /> Salvar
-                </button>
-              )}
-              {tab !== 'archived' && (
-                <button onClick={() => bulkStatus('archived')} disabled={acting} className="flex items-center gap-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 px-3 py-1.5 rounded-lg text-xs font-bold hover:brightness-110 transition disabled:opacity-50">
-                  <Archive size={13} /> Arquivar
-                </button>
-              )}
-              {tab !== 'new' && (
-                <button onClick={() => bulkStatus('new')} disabled={acting} className="flex items-center gap-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 px-3 py-1.5 rounded-lg text-xs font-bold hover:brightness-110 transition disabled:opacity-50">
-                  Mover para Novos
-                </button>
-              )}
-              <button onClick={bulkDelete} disabled={acting} className="flex items-center gap-1 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 px-3 py-1.5 rounded-lg text-xs font-bold hover:brightness-110 transition disabled:opacity-50">
-                <Trash2 size={13} /> Excluir
-              </button>
-            </div>
-          )}
+        <div className="p-4 border-b border-gray-100 dark:border-gray-700">
+          <input
+            className="w-full border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 dark:placeholder-gray-400 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#FF6B00]"
+            placeholder="Buscar por nome, telefone ou serviço..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+          />
         </div>
 
         {/* Table */}
@@ -169,65 +162,80 @@ export default function Leads() {
                 </th>
                 <th className="px-4 py-3 text-left">Nome</th>
                 <th className="px-4 py-3 text-left">Telefone</th>
-                <th className="px-4 py-3 text-left hidden md:table-cell">E-mail</th>
                 <th className="px-4 py-3 text-left">Serviço</th>
-                <th className="px-4 py-3 text-left hidden lg:table-cell">Mensagem</th>
-                <th className="px-4 py-3 text-left hidden sm:table-cell">Data</th>
+                <th className="px-4 py-3 text-left">Status</th>
+                <th className="px-4 py-3 text-left">Data</th>
                 <th className="px-4 py-3 text-left">Ações</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
-              {loading ? (
-                <tr><td colSpan={8} className="text-center py-10 text-gray-400 dark:text-gray-500 text-sm">Carregando...</td></tr>
-              ) : filtered.length === 0 ? (
-                <tr><td colSpan={8}>
-                  <div className="text-center py-12 text-gray-400 dark:text-gray-500">
-                    <ClipboardList className="w-12 h-12 mx-auto mb-2 opacity-40" />
-                    <p className="font-medium">{search ? 'Nenhum lead encontrado.' : `Nenhum lead ${tab === 'new' ? 'novo' : tab === 'saved' ? 'salvo' : 'arquivado'}.`}</p>
-                  </div>
-                </td></tr>
-              ) : filtered.map(lead => (
-                <tr key={lead.id} className={`hover:bg-gray-50 dark:hover:bg-gray-700/50 transition ${selected.has(lead.id) ? 'bg-orange-50/50 dark:bg-orange-900/10' : ''}`}>
-                  <td className="px-4 py-3">
-                    <button onClick={() => toggleOne(lead.id)} className="text-gray-400 hover:text-[#FF6B00] transition">
-                      {selected.has(lead.id) ? <CheckSquare size={16} className="text-[#FF6B00]" /> : <Square size={16} />}
-                    </button>
-                  </td>
-                  <td className="px-4 py-3 font-medium dark:text-gray-100 whitespace-nowrap">{lead.name}</td>
-                  <td className="px-4 py-3 text-gray-600 dark:text-gray-400 whitespace-nowrap">{lead.phone}</td>
-                  <td className="px-4 py-3 text-gray-600 dark:text-gray-400 hidden md:table-cell">{lead.email ?? '—'}</td>
-                  <td className="px-4 py-3"><span className="bg-orange-50 dark:bg-orange-900/20 text-[#FF6B00] px-2 py-0.5 rounded-full text-xs font-bold whitespace-nowrap">{lead.service}</span></td>
-                  <td className="px-4 py-3 text-gray-500 dark:text-gray-400 text-xs max-w-xs truncate hidden lg:table-cell">{lead.message || '—'}</td>
-                  <td className="px-4 py-3 text-gray-500 dark:text-gray-400 text-xs whitespace-nowrap hidden sm:table-cell">{new Date(lead.created_at).toLocaleDateString('pt-BR')}</td>
-                  <td className="px-4 py-3">
-                    <div className="flex items-center gap-1">
-                      <a href={`https://wa.me/55${lead.phone.replace(/\D/g, '')}`} target="_blank" rel="noreferrer" title="WhatsApp" className="p-1.5 rounded-lg text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 transition">
-                        <MessageCircle size={15} />
-                      </a>
-                      {tab !== 'saved' && (
-                        <button onClick={() => updateOne(lead.id, 'saved')} title="Salvar" className="p-1.5 rounded-lg text-gray-400 hover:text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 transition">
-                          <Bookmark size={15} />
+              {filtered.map(lead => (
+                <>
+                  <tr key={lead.id} className="group hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
+                    <td className="px-4 py-3">
+                      <p className="font-medium dark:text-gray-100">{lead.name}</p>
+                      {lead.email && <p className="text-xs text-gray-400">{lead.email}</p>}
+                    </td>
+                    <td className="px-4 py-3 text-gray-600 dark:text-gray-400 text-xs whitespace-nowrap">{lead.phone}</td>
+                    <td className="px-4 py-3">
+                      <span className="bg-orange-50 dark:bg-orange-900/20 text-[#FF6B00] px-2 py-0.5 rounded-full text-xs font-bold">{lead.service}</span>
+                    </td>
+                    <td className="px-4 py-3">
+                      <select
+                        value={lead.status ?? 'new'}
+                        onChange={e => updateStatus(lead.id, e.target.value as Lead['status'])}
+                        className="text-xs border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-lg px-2 py-1 focus:outline-none focus:border-[#FF6B00]"
+                      >
+                        {Object.entries(STATUS_LABELS).map(([val, label]) => (
+                          <option key={val} value={val}>{label}</option>
+                        ))}
+                      </select>
+                    </td>
+                    <td className="px-4 py-3 text-gray-500 dark:text-gray-400 text-xs whitespace-nowrap">
+                      {new Date(lead.created_at).toLocaleDateString('pt-BR')}
+                    </td>
+                    <td className="px-4 py-3">
+                      <div className="flex items-center gap-1">
+                        <a
+                          href={`https://wa.me/55${lead.phone.replace(/\D/g, '')}?text=${encodeURIComponent(`Olá ${lead.name}, vi seu contato sobre ${lead.service}. Como posso ajudar?`)}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          title="WhatsApp com mensagem pré-preenchida"
+                          className="p-1.5 rounded-lg text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 transition"
+                        >
+                          <MessageCircle size={15} />
+                        </a>
+                        <button
+                          onClick={() => deleteOne(lead)}
+                          title="Excluir lead"
+                          className="p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition"
+                        >
+                          <Trash2 size={15} />
                         </button>
-                      )}
-                      {tab !== 'archived' && (
-                        <button onClick={() => updateOne(lead.id, 'archived')} title="Arquivar" className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
-                          <Archive size={15} />
-                        </button>
-                      )}
-                      {tab !== 'new' && (
-                        <button onClick={() => updateOne(lead.id, 'new')} title="Mover para Novos" className="p-1.5 rounded-lg text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition text-xs font-bold">
-                          ↩
-                        </button>
-                      )}
-                      <button onClick={() => deleteOne(lead.id, lead.name)} title="Excluir" className="p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition">
-                        <Trash2 size={15} />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr key={`${lead.id}-notes`} className="bg-gray-50/50 dark:bg-gray-800/50">
+                    <td colSpan={6} className="px-4 pb-2 pt-0">
+                      <textarea
+                        className="w-full text-xs border border-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 rounded-lg px-2 py-1.5 resize-none focus:outline-none focus:border-[#FF6B00] placeholder-gray-300 dark:placeholder-gray-600"
+                        rows={2}
+                        placeholder="Notas internas (salvo automaticamente)..."
+                        value={lead.notes ?? ''}
+                        onChange={e => handleNotesChange(lead.id, e.target.value)}
+                      />
+                    </td>
+                  </tr>
+                </>
               ))}
             </tbody>
           </table>
+          {filtered.length === 0 && (
+            <div className="text-center py-12 text-gray-400 dark:text-gray-500">
+              <ClipboardList className="w-12 h-12 mx-auto mb-2 opacity-40" />
+              <p className="font-medium">Nenhum lead encontrado.</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

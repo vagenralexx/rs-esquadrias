@@ -1,6 +1,8 @@
 interface Props { onOpen: () => void }
 
-export default function WhatsAppFloat({ onOpen }: Props) {
+interface Props { onOpen?: () => void }
+
+export default function WhatsAppFloat({ onOpen: _onOpen }: Props) {
   return (
     <button onClick={onOpen} aria-label="Falar no WhatsApp"
       className="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white p-4 rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform">

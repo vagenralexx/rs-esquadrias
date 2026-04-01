@@ -11,9 +11,9 @@ const FALLBACK: PortfolioItem[] = [
   { id: '6', title: 'Espelho Decorativo', category: 'Espelhos', image_url: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&q=80&w=600', order: 6, created_at: '' },
 ]
 
-interface Props { openModal: (source: string) => void }
+interface Props { openModal?: (source: string) => void }
 
-export default function Portfolio({ openModal }: Props) {
+export default function Portfolio({ openModal: _openModal }: Props) {
   const [items, setItems] = useState<PortfolioItem[]>(FALLBACK)
   const [active, setActive] = useState('Todos')
 

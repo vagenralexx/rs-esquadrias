@@ -6,11 +6,14 @@ const FIELDS = [
   { key: 'address', label: 'Endereço', placeholder: 'Rua, número - Bairro, Cidade - UF' },
   { key: 'phone', label: 'Telefone / WhatsApp', placeholder: '(35) 99720-0066' },
   { key: 'email', label: 'E-mail profissional', placeholder: 'contato@rsesquadrias.com.br' },
+  { key: 'notification_email', label: 'E-mail para receber notificação de leads', placeholder: 'seuemail@rsesquadrias.com.br' },
   { key: 'instagram', label: 'Instagram (URL)', placeholder: 'https://instagram.com/...' },
   { key: 'facebook', label: 'Facebook (URL)', placeholder: 'https://facebook.com/...' },
   { key: 'tiktok', label: 'TikTok (URL)', placeholder: 'https://tiktok.com/@...' },
   { key: 'maps', label: 'Google Maps (URL do link)', placeholder: 'https://maps.google.com/...' },
   { key: 'maps_embed', label: 'Google Maps (URL do iframe/embed)', placeholder: 'https://maps.google.com/maps?q=...&output=embed' },
+  { key: 'hero_image', label: 'Imagem do Hero (URL)', placeholder: 'https://... (URL da foto principal do site)' },
+  { key: 'services_list', label: 'Serviços (separados por vírgula)', placeholder: 'Esquadrias de Alumínio, Box de Banheiro, Vidros Temperados, Outro' },
 ]
 
 export default function Config() {

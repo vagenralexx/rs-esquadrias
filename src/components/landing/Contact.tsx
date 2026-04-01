@@ -4,9 +4,9 @@ import { supabase } from '../../lib/supabase'
 
 const DEFAULTS = { address: 'R. Sebastião Mattos, 386, Munhoz - MG, 37620-000', phone: '(35) 99720-0066', email: 'contato@rsesquadrias.com.br', instagram: 'https://www.instagram.com/rsesquadriasevidracaria_/', maps: 'https://www.google.com/maps?q=-22.6104739,-46.366385', maps_embed: 'https://maps.google.com/maps?q=-22.6104739,-46.366385&z=17&output=embed' }
 
-interface Props { openModal: (source: string) => void }
+interface ContactProps { openModal?: (source: string) => void }
 
-export default function Contact({ openModal }: Props) {
+export default function Contact({ openModal: _openModal }: ContactProps) {
   const [config, setConfig] = useState(DEFAULTS)
 
   useEffect(() => {

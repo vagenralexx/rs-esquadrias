@@ -1,4 +1,5 @@
 import { Check, Ruler, Headphones } from 'lucide-react'
+import { useIntersectionObserver } from '../../hooks/useIntersectionObserver'
 
 const items = [
   { Icon: Check, title: 'Qualidade Superior', desc: 'Usamos ferragens de inox e vedação de primeira linha contra infiltrações.' },
@@ -7,8 +8,14 @@ const items = [
 ]
 
 export default function Differentials() {
+  const { ref, isVisible } = useIntersectionObserver()
+
   return (
-    <section id="diferenciais" className="py-16 md:py-24 bg-black text-white overflow-hidden">
+    <section
+      ref={ref as React.RefObject<HTMLElement>}
+      id="diferenciais"
+      className={`fade-in-section${isVisible ? ' visible' : ''} py-16 md:py-24 bg-black text-white overflow-hidden`}
+    >
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
           <div>

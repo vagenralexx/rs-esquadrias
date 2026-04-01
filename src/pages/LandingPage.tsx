@@ -11,6 +11,7 @@ import Contact from '../components/landing/Contact'
 import Footer from '../components/landing/Footer'
 import WhatsAppFloat from '../components/landing/WhatsAppFloat'
 import LeadModal from '../components/landing/LeadModal'
+import MobileCTA from '../components/landing/MobileCTA'
 
 const WA = import.meta.env.VITE_WHATSAPP as string
 
@@ -26,6 +27,8 @@ function getOrCreateSessionId() {
 export default function LandingPage() {
   const [showModal, setShowModal] = useState(false)
   const [modalSource, setModalSource] = useState('landing')
+  const [heroImage, setHeroImage] = useState('')
+  const [servicesList, setServicesList] = useState<string[]>([])
 
   function openModal(source = 'landing') {
     setModalSource(source)
@@ -39,12 +42,20 @@ export default function LandingPage() {
         sessionStorage.setItem('_rs_pv', '1')
       })
     }
+
+    supabase.from('site_config').select('key,value').in('key', ['hero_image', 'services_list']).then(({ data }) => {
+      if (!data) return
+      data.forEach(({ key, value }) => {
+        if (key === 'hero_image') setHeroImage(value)
+        if (key === 'services_list' && value) setServicesList(value.split(',').map((s: string) => s.trim()).filter(Boolean))
+      })
+    })
   }, [])
 
   return (
     <>
       <Header onOpenModal={openModal} />
-      <Hero openModal={openModal} />
+      <Hero openModal={openModal} heroImage={heroImage} />
       <Services />
       <Differentials />
       <Portfolio openModal={openModal} />
@@ -53,7 +64,15 @@ export default function LandingPage() {
       <Contact openModal={openModal} />
       <Footer openModal={openModal} />
       <WhatsAppFloat onOpen={() => openModal('float_whatsapp')} />
-      {showModal && <LeadModal onClose={() => setShowModal(false)} waNumber={WA} source={modalSource} />}
+      <MobileCTA onOpen={() => openModal('cta_mobile')} />
+      {showModal && (
+        <LeadModal
+          onClose={() => setShowModal(false)}
+          waNumber={WA}
+          source={modalSource}
+          servicesList={servicesList}
+        />
+      )}
     </>
   )
 }

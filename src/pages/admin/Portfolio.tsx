@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { supabase } from '../../lib/supabase'
 import type { PortfolioItem } from '../../lib/types'
-import { convertToWebP } from '../../lib/imageUtils'
-import { Trash2, Upload, Images } from 'lucide-react'
+import { Trash2, Upload, Images, GripVertical } from 'lucide-react'
 
 const CATEGORIES = ['Esquadrias de Alumínio', 'Box de Banheiro', 'Espelhos', 'Vidros & Sacadas', 'Projetos Especiais']
 
@@ -12,6 +11,8 @@ export default function Portfolio() {
   const [title, setTitle] = useState('')
   const [category, setCategory] = useState(CATEGORIES[0])
   const fileRef = useRef<HTMLInputElement>(null)
+  const dragItem = useRef<number | null>(null)
+  const dragOverItem = useRef<number | null>(null)
 
   async function load() {
     const { data } = await supabase.from('portfolio').select('*').order('order')
@@ -44,6 +45,29 @@ export default function Portfolio() {
     load()
   }
 
+  function handleDragStart(index: number) {
+    dragItem.current = index
+  }
+
+  function handleDragEnter(index: number) {
+    if (dragItem.current === null || dragItem.current === index) return
+    const newItems = [...items]
+    const dragged = newItems[dragItem.current]
+    newItems.splice(dragItem.current, 1)
+    newItems.splice(index, 0, dragged)
+    dragItem.current = index
+    setItems(newItems)
+  }
+
+  async function handleDragEnd() {
+    const updates = items.map((item, index) => ({ id: item.id, order: index + 1 }))
+    await Promise.all(
+      updates.map(u => supabase.from('portfolio').update({ order: u.order }).eq('id', u.id))
+    )
+    dragItem.current = null
+    dragOverItem.current = null
+  }
+
   return (
     <div>
       <h1 className="text-2xl font-extrabold mb-6 dark:text-gray-100">Portfólio</h1>
@@ -69,10 +93,23 @@ export default function Portfolio() {
           <Upload size={16} /> {loading ? 'Enviando...' : 'Adicionar foto'}
         </button>
       </form>
+
+      <p className="text-xs text-gray-400 dark:text-gray-500 mb-3 flex items-center gap-1">
+        <GripVertical size={12} /> Arraste para reordenar as fotos
+      </p>
+
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-        {items.map(item => (
-          <div key={item.id} className="relative group rounded-2xl overflow-hidden bg-gray-100 dark:bg-gray-700 aspect-square">
-            <img src={item.image_url} alt={item.title} className="w-full h-full object-cover" />
+        {items.map((item, index) => (
+          <div
+            key={item.id}
+            draggable
+            onDragStart={() => handleDragStart(index)}
+            onDragEnter={() => handleDragEnter(index)}
+            onDragEnd={handleDragEnd}
+            onDragOver={e => e.preventDefault()}
+            className="relative group rounded-2xl overflow-hidden bg-gray-100 dark:bg-gray-700 aspect-square cursor-grab active:cursor-grabbing active:opacity-60 transition-opacity"
+          >
+            <img src={item.image_url} alt={item.title} className="w-full h-full object-cover" loading="lazy" decoding="async" />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition flex flex-col items-center justify-center gap-2 opacity-0 group-hover:opacity-100">
               <p className="text-white text-xs font-bold text-center px-2">{item.title}</p>
               <p className="text-[#FF6B00] text-[10px] font-bold">{item.category}</p>

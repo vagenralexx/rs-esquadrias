@@ -5,7 +5,9 @@ import { DarkModeToggle } from '../ui/DarkModeToggle'
 
 interface Props { onOpenModal: (source: string) => void }
 
-export default function Header({ onOpenModal }: Props) {
+interface Props { onOpenModal?: (source: string) => void }
+
+export default function Header({ onOpenModal: _onOpenModal }: Props) {
   const [open, setOpen] = useState(false)
   return (
     <header className="fixed w-full z-50 bg-black/95 backdrop-blur border-b border-white/10 shadow-sm">
