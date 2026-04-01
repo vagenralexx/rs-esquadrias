@@ -322,8 +322,9 @@ insert into public.reviews (author_name, rating, body, "order", active) values
 on conflict do nothing;
 
 -- ============================================================
--- MIGRATION: Campo notes na tabela leads
+-- MIGRATION: Campos notes e status na tabela leads
 -- ============================================================
+alter table public.leads add column if not exists status text not null default 'new' check (status in ('new', 'saved', 'archived'));
 alter table public.leads add column if not exists notes text not null default '';
 
 -- ============================================================

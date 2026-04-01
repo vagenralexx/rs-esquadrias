@@ -46,13 +46,17 @@ export default function Leads() {
   }
 
   async function updateStatus(id: string, status: Lead['status']) {
-    await supabase.from('leads').update({ status }).eq('id', id)
-    setLeads(prev => prev.map(l => l.id === id ? { ...l, status } : l))
+    const { error } = await supabase.from('leads').update({ status }).eq('id', id)
+    if (!error) setLeads(prev => prev.map(l => l.id === id ? { ...l, status } : l))
   }
 
   async function deleteOne(lead: Lead) {
     if (!confirm(`Excluir lead de ${lead.name}?`)) return
-    await supabase.from('leads').delete().eq('id', lead.id)
+    const { error } = await supabase.from('leads').delete().eq('id', lead.id)
+    if (error) {
+      alert(`Erro ao excluir: ${error.message}`)
+      return
+    }
     setLeads(prev => prev.filter(l => l.id !== lead.id))
   }
 
