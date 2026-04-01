@@ -1,5 +1,7 @@
+import { useEffect, useState } from 'react'
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
+import { supabase } from '../../lib/supabase'
 import { LayoutDashboard, Images, Settings, Users, MessageSquare, LogOut, ExternalLink, Star } from 'lucide-react'
 import { DarkModeToggle } from '../ui/DarkModeToggle'
 
@@ -15,6 +17,28 @@ const nav = [
 export default function AdminLayout() {
   const { profile, signOut } = useAuth()
   const navigate = useNavigate()
+  const [newLeadsCount, setNewLeadsCount] = useState(0)
+
+  useEffect(() => {
+    supabase
+      .from('leads')
+      .select('id', { count: 'exact', head: true })
+      .eq('status', 'new')
+      .then(({ count }) => setNewLeadsCount(count ?? 0))
+
+    const channel = supabase
+      .channel('admin-leads-badge')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'leads' }, () => {
+        supabase
+          .from('leads')
+          .select('id', { count: 'exact', head: true })
+          .eq('status', 'new')
+          .then(({ count }) => setNewLeadsCount(count ?? 0))
+      })
+      .subscribe()
+
+    return () => { supabase.removeChannel(channel) }
+  }, [])
 
   async function handleSignOut() {
     await signOut()
@@ -39,7 +63,13 @@ export default function AdminLayout() {
             return (
               <NavLink key={item.to} to={item.to} end={item.end}
                 className={({ isActive }) => `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition ${isActive ? 'bg-[#FF6B00] text-white' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'}`}>
-                <item.icon size={16} />{item.label}
+                <item.icon size={16} />
+                {item.label}
+                {item.to === '/admin/leads' && newLeadsCount > 0 && (
+                  <span className="ml-auto bg-[#FF6B00] text-white text-[10px] font-extrabold px-1.5 py-0.5 rounded-full min-w-[18px] text-center leading-tight">
+                    {newLeadsCount > 99 ? '99+' : newLeadsCount}
+                  </span>
+                )}
               </NavLink>
             )
           })}
