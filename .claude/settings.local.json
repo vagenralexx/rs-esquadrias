@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run:*)",
+      "Bash(ls -lh dist/assets/*.js)",
+      "Bash(git -C \"D:/Smart Print/Documents/Ramon/.worktrees/melhorias\" status --short src/components/landing/Reviews.tsx)"
+    ]
+  }
+}

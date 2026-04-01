@@ -7,9 +7,9 @@ const SERVICES = [
   'Box de Banheiro', 'Pele de Vidro / Fachada', 'Portões de Alumínio', 'Outro',
 ]
 
-interface Props { onClose: () => void; waNumber: string }
+interface Props { onClose: () => void; waNumber: string; source?: string }
 
-export default function LeadModal({ onClose, waNumber }: Props) {
+export default function LeadModal({ onClose, waNumber, source }: Props) {
   const [form, setForm] = useState({ name: '', phone: '', email: '', service: '', message: '' })
   const [loading, setLoading] = useState(false)
 
@@ -22,14 +22,23 @@ export default function LeadModal({ onClose, waNumber }: Props) {
     setLoading(true)
     await supabase.from('leads').insert({
       name: form.name, phone: form.phone, email: form.email || null,
-      service: form.service, message: form.message, source: 'landing_hero',
+      service: form.service, message: form.message, source: source ?? 'landing',
     })
-    const msg = encodeURIComponent(
-      `Olá! Meu nome é *${form.name}*.\n📞 Telefone: ${form.phone}\n🔧 Serviço: ${form.service}\n` +
-      (form.message ? `💬 ${form.message}` : '')
-    )
+
+    const lines = [
+      `Olá! Me chamo ${form.name}.`,
+      `Telefone: ${form.phone}`,
+      `Serviço: ${form.service}`,
+      ...(form.message ? [form.message] : []),
+    ]
+    const text = encodeURIComponent(lines.join('\n'))
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+    const url = isMobile
+      ? `whatsapp://send?phone=${waNumber}&text=${text}`
+      : `https://web.whatsapp.com/send?phone=${waNumber}&text=${text}`
+
     setLoading(false)
-    window.open(`https://wa.me/${waNumber}?text=${msg}`, '_blank')
+    window.open(url, '_blank')
     onClose()
   }
 

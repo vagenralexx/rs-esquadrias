@@ -40,7 +40,7 @@ create policy "profiles_update" on public.profiles
     -- não-master só pode alterar o próprio registro, mantendo o role atual
     OR (
       auth.uid() = id
-      AND role = (select role from public.profiles where id = auth.uid())
+      AND "role" = (select role from public.profiles where id = auth.uid())
     )
   );
 
@@ -93,7 +93,10 @@ insert into public.site_config (key, value) values
   ('email', 'contato@rsesquadrias.com.br'),
   ('instagram', 'https://www.instagram.com/rsesquadriasevidracaria_/'),
   ('maps', 'https://www.google.com/maps?q=-22.6104739,-46.366385'),
-  ('maps_embed', 'https://maps.google.com/maps?q=-22.6104739,-46.366385&z=17&output=embed')
+  ('maps_embed', 'https://maps.google.com/maps?q=-22.6104739,-46.366385&z=17&output=embed'),
+  ('notification_email', ''),
+  ('hero_image', ''),
+  ('services_list', 'Esquadrias de Alumínio,Vidros de Segurança,Espelhos Premium,Box de Banheiro,Pele de Vidro / Fachada,Portões de Alumínio,Outro')
 on conflict (key) do nothing;
 
 -- ============================================================
@@ -135,6 +138,148 @@ drop policy if exists "images_delete" on storage.objects;
 create policy "images_select" on storage.objects for select using (bucket_id = 'images');
 create policy "images_insert" on storage.objects for insert to authenticated with check (bucket_id = 'images');
 create policy "images_delete" on storage.objects for delete to authenticated using (bucket_id = 'images');
+
+-- ============================================================
+-- TABELA DE MÉTRICAS DE VISITAS AO SITE
+-- ============================================================
+create table if not exists public.page_views (
+  id uuid default gen_random_uuid() primary key,
+  session_id text not null,
+  page text not null default '/',
+  created_at timestamptz default now()
+);
+
+alter table public.page_views enable row level security;
+
+drop policy if exists "page_views_insert" on public.page_views;
+drop policy if exists "page_views_select" on public.page_views;
+
+-- Qualquer visitante (anônimo) pode registrar visualização
+create policy "page_views_insert" on public.page_views for insert with check (true);
+-- Apenas usuários autenticados (admins) podem consultar
+create policy "page_views_select" on public.page_views for select to authenticated using (true);
+
+-- ============================================================
+-- TABELA DE PARCEIROS
+-- ============================================================
+create table if not exists public.partners (
+  id uuid default gen_random_uuid() primary key,
+  name text not null,
+  description text not null default '',
+  address text not null default '',
+  phone text not null default '',
+  whatsapp text not null default '',
+  logo_url text not null default '',
+  "order" integer not null default 0,
+  active boolean not null default true,
+  created_at timestamptz default now()
+);
+
+alter table public.partners enable row level security;
+
+drop policy if exists "partners_select" on public.partners;
+drop policy if exists "partners_all" on public.partners;
+
+-- Qualquer visitante pode ver parceiros ativos
+create policy "partners_select" on public.partners for select using (active = true);
+-- Só autenticados podem gerenciar
+create policy "partners_all" on public.partners for all to authenticated using (true) with check (true);
+
+-- ============================================================
+-- TABELA DE LEADS
+-- ============================================================
+create table if not exists public.leads (
+  id uuid default gen_random_uuid() primary key,
+  name text not null,
+  phone text not null,
+  email text,
+  service text not null default '',
+  message text not null default '',
+  source text not null default '',
+  status text not null default 'new' check (status in ('new', 'saved', 'archived')),
+  notes text not null default '',
+  created_at timestamptz default now()
+);
+
+alter table public.leads enable row level security;
+
+drop policy if exists "leads_insert" on public.leads;
+drop policy if exists "leads_select" on public.leads;
+drop policy if exists "leads_all" on public.leads;
+
+-- Qualquer visitante (anônimo) pode inserir lead
+create policy "leads_insert" on public.leads for insert with check (true);
+-- Só autenticados podem ver e gerenciar
+create policy "leads_select" on public.leads for select to authenticated using (true);
+create policy "leads_all" on public.leads for all to authenticated using (true) with check (true);
+
+-- ============================================================
+-- TABELA DE AVALIAÇÕES (REVIEWS)
+-- ============================================================
+create table if not exists public.reviews (
+  id uuid default gen_random_uuid() primary key,
+  author_name text not null,
+  rating integer not null default 5 check (rating between 1 and 5),
+  body text not null default '',
+  "order" integer not null default 0,
+  active boolean not null default true,
+  created_at timestamptz default now()
+);
+
+alter table public.reviews enable row level security;
+
+drop policy if exists "reviews_select" on public.reviews;
+drop policy if exists "reviews_all" on public.reviews;
+
+create policy "reviews_select" on public.reviews for select using (active = true);
+create policy "reviews_all" on public.reviews for all to authenticated using (true) with check (true);
+
+insert into public.reviews (author_name, rating, body, "order", active) values
+  ('Sophia Moraes', 5, 'Um ótimo atendimento, recomendo!', 1, true),
+  ('Aparecida Fogaça', 5, 'Excelente atendimento e serviço, super indico.', 2, true),
+  ('João Almeida', 5, 'Muito bom serviço e excelente atendimento.', 3, true),
+  ('Vovó Lola', 5, 'Atendimento impecável, trabalho de qualidade!', 4, true)
+on conflict do nothing;
+
+-- ============================================================
+-- MIGRATIONS (execute em DBs existentes que já rodaram o setup)
+-- ============================================================
+alter table public.leads add column if not exists status text not null default 'new' check (status in ('new', 'saved', 'archived'));
+alter table public.leads add column if not exists notes text not null default '';
+
+insert into public.site_config (key, value) values
+  ('notification_email', ''),
+  ('hero_image', ''),
+  ('services_list', 'Esquadrias de Alumínio,Vidros de Segurança,Espelhos Premium,Box de Banheiro,Pele de Vidro / Fachada,Portões de Alumínio,Outro')
+on conflict (key) do nothing;
+
+-- ============================================================
+-- TRIGGER: Notificação de novo lead por email (Edge Function)
+-- ============================================================
+
+-- Habilita pg_net (já disponível em todos os projetos Supabase)
+create extension if not exists pg_net schema extensions;
+
+-- Função trigger que chama a Edge Function notify-new-lead
+create or replace function public.notify_new_lead_fn()
+returns trigger language plpgsql security definer as $$
+begin
+  perform extensions.http_post(
+    url := 'https://buykmrxavdzadcapdseo.supabase.co/functions/v1/notify-new-lead',
+    headers := jsonb_build_object(
+      'Content-Type', 'application/json',
+      'Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ1eWttcnhhdmR6YWRjYXBkc2VvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5ODU0NTYsImV4cCI6MjA5MDU2MTQ1Nn0.DyQH6lXurs4X0m9T7XqeGgz8rul33WCG9fQwsc8aN_8'
+    ),
+    body := jsonb_build_object('record', row_to_json(NEW))
+  );
+  return NEW;
+end;
+$$;
+
+drop trigger if exists notify_new_lead_trigger on public.leads;
+create trigger notify_new_lead_trigger
+  after insert on public.leads
+  for each row execute function public.notify_new_lead_fn();
 
 -- ============================================================
 -- APÓS CRIAR O USUÁRIO NO DASHBOARD, PROMOVA PARA MASTER:

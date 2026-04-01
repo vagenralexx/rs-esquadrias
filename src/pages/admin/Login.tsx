@@ -35,8 +35,8 @@ export default function Login() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center px-4">
       <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-lg w-full max-w-sm p-8">
-        <div className="flex items-center gap-2 mb-8">
-          <div className="bg-black text-white px-2 py-1 rounded font-extrabold text-xl">RS</div>
+        <div className="flex items-center gap-3 mb-8">
+          <img src="/logo.png" alt="RS Esquadrias" className="h-10 w-auto" />
           <span className="font-extrabold text-sm uppercase">Painel Admin</span>
         </div>
         {resetMode ? (

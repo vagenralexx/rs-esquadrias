@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { supabase } from '../../lib/supabase'
 import type { PortfolioItem } from '../../lib/types'
+import { convertToWebP } from '../../lib/imageUtils'
 import { Trash2, Upload, Images } from 'lucide-react'
 
 const CATEGORIES = ['Esquadrias de Alumínio', 'Box de Banheiro', 'Espelhos', 'Vidros & Sacadas', 'Projetos Especiais']
@@ -24,9 +25,9 @@ export default function Portfolio() {
     const file = fileRef.current?.files?.[0]
     if (!file || !title) return
     setLoading(true)
-    const ext = file.name.split('.').pop()
-    const path = `portfolio/${Date.now()}.${ext}`
-    const { error: uploadErr } = await supabase.storage.from('images').upload(path, file)
+    const webp = await convertToWebP(file)
+    const path = `portfolio/${Date.now()}.webp`
+    const { error: uploadErr } = await supabase.storage.from('images').upload(path, webp, { contentType: 'image/webp' })
     if (uploadErr) { setLoading(false); alert('Erro no upload: ' + uploadErr.message); return }
     const { data: { publicUrl } } = supabase.storage.from('images').getPublicUrl(path)
     await supabase.from('portfolio').insert({ title, category, image_url: publicUrl, order: items.length + 1 })

@@ -31,5 +31,19 @@ export interface Lead {
   service: string
   message: string
   source: string
+  status: 'new' | 'saved' | 'archived'
+  created_at: string
+}
+
+export interface Partner {
+  id: string
+  name: string
+  description: string
+  address: string
+  phone: string
+  whatsapp: string
+  logo_url: string
+  order: number
+  active: boolean
   created_at: string
 }
