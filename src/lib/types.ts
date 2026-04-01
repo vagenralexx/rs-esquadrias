@@ -31,6 +31,8 @@ export interface Lead {
   service: string
   message: string
   source: string
+  status: 'new' | 'saved' | 'archived'
+  notes: string
   created_at: string
 }
 

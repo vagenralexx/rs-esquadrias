@@ -170,3 +170,17 @@ insert into public.reviews (author_name, rating, body, "order", active) values
   ('João Almeida', 5, 'Muito bom serviço e excelente atendimento.', 3, true),
   ('Vovó Lola', 5, 'Atendimento impecável, trabalho de qualidade!', 4, true)
 on conflict do nothing;
+
+-- ============================================================
+-- MIGRATION: Campo notes na tabela leads
+-- ============================================================
+alter table public.leads add column if not exists notes text not null default '';
+
+-- ============================================================
+-- SEED: Novas chaves em site_config
+-- ============================================================
+insert into public.site_config (key, value) values
+  ('notification_email', ''),
+  ('hero_image', ''),
+  ('services_list', 'Esquadrias de Alumínio,Vidros de Segurança,Espelhos Premium,Box de Banheiro,Pele de Vidro / Fachada,Portões de Alumínio,Outro')
+on conflict (key) do nothing;
