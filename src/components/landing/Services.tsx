@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { SquareStack, Layers, Wrench, Zap, Star, CheckCircle2, ArrowRight } from 'lucide-react'
+import { useIntersectionObserver } from '../../hooks/useIntersectionObserver'
 import LeadModal from './LeadModal'
 
 const WA = import.meta.env.VITE_WHATSAPP as string
@@ -96,10 +97,15 @@ export default function Services() {
   const [active, setActive] = useState('esquadrias')
   const [showModal, setShowModal] = useState(false)
   const tab = TABS.find(t => t.id === active)!
+  const { ref, isVisible } = useIntersectionObserver()
 
   return (
     <>
-      <section id="servicos" className="py-16 md:py-24 bg-gray-50 dark:bg-gray-900 transition-colors">
+      <section
+        ref={ref as React.RefObject<HTMLElement>}
+        id="servicos"
+        className={`fade-in-section${isVisible ? ' visible' : ''} py-16 md:py-24 bg-gray-50 dark:bg-gray-900 transition-colors`}
+      >
         <div className="container mx-auto px-4">
           <div className="text-center mb-10 md:mb-14">
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold mb-3 uppercase text-gray-900 dark:text-gray-100">
