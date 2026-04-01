@@ -32,67 +32,17 @@ export default function Leads() {
     return () => { supabase.removeChannel(channel) }
   }, [])
 
-  useEffect(() => { load() }, [])
-
-  const byTab = leads.filter(l => (l.status ?? 'new') === tab)
-  const filtered = byTab.filter(l =>
+  const filtered = leads.filter(l =>
     l.name.toLowerCase().includes(search.toLowerCase()) ||
     l.phone.includes(search) ||
     l.service.toLowerCase().includes(search.toLowerCase())
   )
 
-  function toggleOne(id: string) {
-    setSelected(prev => {
-      const next = new Set(prev)
-      next.has(id) ? next.delete(id) : next.add(id)
-      return next
-    })
-  }
-
-  function toggleAll() {
-    if (selected.size === filtered.length) setSelected(new Set())
-    else setSelected(new Set(filtered.map(l => l.id)))
-  }
-
-  async function bulkStatus(status: Status) {
-    if (selected.size === 0) return
-    setActing(true)
-    await supabase.from('leads').update({ status }).in('id', Array.from(selected))
-    setActing(false)
-    load()
-  }
-
-  async function bulkDelete() {
-    if (selected.size === 0) return
-    if (!confirm(`Excluir ${selected.size} lead(s)? Esta ação não pode ser desfeita.`)) return
-    setActing(true)
-    await supabase.from('leads').delete().in('id', Array.from(selected))
-    setActing(false)
-    load()
-  }
-
-  async function updateOne(id: string, status: Status) {
-    await supabase.from('leads').update({ status }).eq('id', id)
-    load()
-  }
-
-  async function deleteOne(id: string, name: string) {
-    if (!confirm(`Excluir lead de ${name}?`)) return
-    await supabase.from('leads').delete().eq('id', id)
-    load()
-  }
-
   function exportCSV() {
     const header = 'Nome,Telefone,Email,Serviço,Mensagem,Origem,Status,Data'
     const rows = leads.map(l => `"${l.name}","${l.phone}","${l.email ?? ''}","${l.service}","${l.message}","${l.source}","${l.status}","${new Date(l.created_at).toLocaleDateString('pt-BR')}"`)
     const blob = new Blob([[header, ...rows].join('\n')], { type: 'text/csv' })
-    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `leads-${tab}-${Date.now()}.csv`; a.click()
-  }
-
-  const counts = {
-    new: leads.filter(l => (l.status ?? 'new') === 'new').length,
-    saved: leads.filter(l => l.status === 'saved').length,
-    archived: leads.filter(l => l.status === 'archived').length,
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `leads-rs-${Date.now()}.csv`; a.click()
   }
 
   async function updateStatus(id: string, status: Lead['status']) {
@@ -116,30 +66,10 @@ export default function Leads() {
 
   return (
     <div>
-      {/* Header */}
-      <div className="flex items-center justify-between mb-4 gap-4 flex-wrap">
-        <h1 className="text-xl md:text-2xl font-extrabold dark:text-gray-100">Leads</h1>
-        <button onClick={exportCSV} className="flex items-center gap-2 bg-[#FF6B00] text-white px-4 py-2 rounded-xl font-bold text-sm hover:brightness-110 transition">
-          <Download size={14} /> Exportar CSV
-        </button>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-extrabold dark:text-gray-100">Leads</h1>
+        <button onClick={exportCSV} className="bg-[#FF6B00] text-white px-4 py-2 rounded-xl font-bold text-sm hover:brightness-110 transition">Exportar CSV</button>
       </div>
-
-      {/* Tabs */}
-      <div className="flex gap-1 mb-4 bg-gray-100 dark:bg-gray-800 p-1 rounded-xl w-fit">
-        {TABS.map(t => (
-          <button
-            key={t.key}
-            onClick={() => { setTab(t.key); setSelected(new Set()) }}
-            className={`px-4 py-2 rounded-lg text-sm font-bold transition flex items-center gap-1.5 ${tab === t.key ? 'bg-white dark:bg-gray-900 shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'}`}
-          >
-            <span className={tab === t.key ? t.color : ''}>{t.label}</span>
-            <span className={`text-xs px-1.5 py-0.5 rounded-full font-extrabold ${tab === t.key ? 'bg-[#FF6B00]/10 text-[#FF6B00]' : 'bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400'}`}>
-              {counts[t.key]}
-            </span>
-          </button>
-        ))}
-      </div>
-
       <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
         <div className="p-4 border-b border-gray-100 dark:border-gray-700">
           <input
@@ -149,17 +79,10 @@ export default function Leads() {
             onChange={e => setSearch(e.target.value)}
           />
         </div>
-
-        {/* Table */}
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-gray-50 dark:bg-gray-700 text-xs uppercase text-gray-500 dark:text-gray-400 font-bold">
               <tr>
-                <th className="px-4 py-3">
-                  <button onClick={toggleAll} className="text-gray-400 hover:text-[#FF6B00] transition">
-                    {selected.size === filtered.length && filtered.length > 0 ? <CheckSquare size={16} className="text-[#FF6B00]" /> : <Square size={16} />}
-                  </button>
-                </th>
                 <th className="px-4 py-3 text-left">Nome</th>
                 <th className="px-4 py-3 text-left">Telefone</th>
                 <th className="px-4 py-3 text-left">Serviço</th>
@@ -241,4 +164,3 @@ export default function Leads() {
     </div>
   )
 }
-

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../lib/supabase'
-import { LayoutDashboard, Images, Settings, Users, MessageSquare, LogOut, ExternalLink, Star } from 'lucide-react'
+import { LayoutDashboard, Images, Settings, Users, MessageSquare, LogOut, ExternalLink, Star, Handshake, Menu, X } from 'lucide-react'
 import { DarkModeToggle } from '../ui/DarkModeToggle'
 
 const nav = [
@@ -19,6 +19,7 @@ export default function AdminLayout() {
   const { profile, signOut } = useAuth()
   const navigate = useNavigate()
   const [newLeadsCount, setNewLeadsCount] = useState(0)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   useEffect(() => {
     supabase

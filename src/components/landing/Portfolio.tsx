@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
 import type { PortfolioItem } from '../../lib/types'
+import LeadModal from './LeadModal'
+
+const WA = import.meta.env.VITE_WHATSAPP as string
 const CATEGORIES = ['Todos', 'Esquadrias de Alumínio', 'Box de Banheiro', 'Espelhos', 'Vidros & Sacadas', 'Projetos Especiais']
 const FALLBACK: PortfolioItem[] = [
   { id: '1', title: 'Fachada de Vidro', category: 'Vidros & Sacadas', image_url: 'https://images.unsplash.com/photo-1527359443443-84a48abc7df0?auto=format&fit=crop&q=80&w=600', order: 1, created_at: '' },
@@ -16,6 +19,7 @@ interface Props { openModal?: (source: string) => void }
 export default function Portfolio({ openModal: _openModal }: Props) {
   const [items, setItems] = useState<PortfolioItem[]>(FALLBACK)
   const [active, setActive] = useState('Todos')
+  const [showModal, setShowModal] = useState(false)
 
   useEffect(() => {
     supabase.from('portfolio').select('*').order('order').then(({ data }) => {
@@ -80,13 +84,14 @@ export default function Portfolio({ openModal: _openModal }: Props) {
           </div>
           <div className="mt-12 md:mt-16 bg-gray-50 dark:bg-gray-900 rounded-2xl md:rounded-3xl p-6 md:p-12 border border-gray-100 dark:border-gray-800 shadow-sm">
             <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-gray-900 dark:text-gray-100">Pronto para iniciar seu projeto?</h3>
-            <button onClick={() => openModal('portfolio_cta')} className="inline-flex items-center gap-3 md:gap-4 bg-[#FF6B00] text-white px-8 md:px-10 py-4 md:py-5 rounded-xl md:rounded-2xl font-black text-base md:text-xl hover:brightness-110 transition shadow-xl shadow-orange-500/30">
+            <button onClick={() => setShowModal(true)} className="inline-flex items-center gap-3 md:gap-4 bg-[#FF6B00] text-white px-8 md:px-10 py-4 md:py-5 rounded-xl md:rounded-2xl font-black text-base md:text-xl hover:brightness-110 transition shadow-xl shadow-orange-500/30">
               SOLICITAR ORÇAMENTO AGORA
             </button>
             <p className="mt-4 md:mt-6 text-gray-500 dark:text-gray-400 font-medium italic text-sm md:text-base">Atendimento rápido em toda a região.</p>
           </div>
         </div>
       </section>
+      {showModal && <LeadModal onClose={() => setShowModal(false)} waNumber={WA} />}
     </>
   )
 }
